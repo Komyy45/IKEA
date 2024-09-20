@@ -4,7 +4,7 @@ using Linkdev.IKEA.DAL.Presistance.Repositories.Departments;
 
 namespace Linkdev.IKEA.BLL.Services.Departments
 {
-    internal class DepartmentService : IDepartmentService
+    public class DepartmentService : IDepartmentService
     {
         private readonly IDepartmentRepository _departmentRepo;
 

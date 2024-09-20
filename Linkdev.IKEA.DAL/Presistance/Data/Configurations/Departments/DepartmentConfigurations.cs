@@ -35,7 +35,7 @@ namespace Linkdev.IKEA.DAL.Presistance.Data.Configurations.Departments
             builder.Property(D => D.CreatedOn)
                    .HasDefaultValueSql("GetDate()");
 
-            builder.Property(D => D.ModifiedOn)
+            builder.Property(D => D.LastModifiedOn)
                    .HasComputedColumnSql("GetDate()");
         }
     }

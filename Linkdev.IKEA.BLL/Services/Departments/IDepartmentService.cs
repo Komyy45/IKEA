@@ -7,7 +7,7 @@ using Linkdev.IKEA.BLL.Models.Departments;
 
 namespace Linkdev.IKEA.BLL.Services.Departments
 {
-    internal interface IDepartmentService
+    public interface IDepartmentService
     {
         IEnumerable<DepartmentDto> GetAllDepartments();
 
