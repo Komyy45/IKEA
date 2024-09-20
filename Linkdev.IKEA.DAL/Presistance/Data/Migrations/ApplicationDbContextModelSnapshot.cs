@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Linkdev.IKEA.DAL.Migrations
+namespace Linkdev.IKEA.DAL.Presistance.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -53,10 +53,10 @@ namespace Linkdev.IKEA.DAL.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<int>("ModifiedBy")
+                    b.Property<int>("LastModifiedBy")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("ModifiedOn")
+                    b.Property<DateTime>("LastModifiedOn")
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("datetime2")
                         .HasComputedColumnSql("GetDate()");

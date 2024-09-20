@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Linkdev.IKEA.DAL.Migrations
+namespace Linkdev.IKEA.DAL.Presistance.Data.Migrations
 {
     /// <inheritdoc />
     public partial class DepartmentModuleConfigurations : Migration
@@ -24,8 +24,8 @@ namespace Linkdev.IKEA.DAL.Migrations
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedBy = table.Column<int>(type: "int", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GetDate()"),
-                    ModifiedBy = table.Column<int>(type: "int", nullable: false),
-                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: false, computedColumnSql: "GetDate()")
+                    LastModifiedBy = table.Column<int>(type: "int", nullable: false),
+                    LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: false, computedColumnSql: "GetDate()")
                 },
                 constraints: table =>
                 {
