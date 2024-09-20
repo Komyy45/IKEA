@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Linkdev.IKEA.DAL.Presistance.Repositories.Departments
 {
-    internal class DepartmentRepository : IDepartmentRepository
+    public class DepartmentRepository : IDepartmentRepository
     {
         private readonly ApplicationDbContext _dbContext;
 
@@ -24,6 +24,11 @@ namespace Linkdev.IKEA.DAL.Presistance.Repositories.Departments
                 return _dbContext.Departments.AsNoTracking().ToList();
 
             return _dbContext.Departments.ToList();
+        }
+
+        public IQueryable<Department> GetIQueryable()
+        {
+            return _dbContext.Departments;
         }
 
         public Department? Get(int id)
@@ -43,9 +48,9 @@ namespace Linkdev.IKEA.DAL.Presistance.Repositories.Departments
             return _dbContext.SaveChanges();
         }
 
-        public int Delete(int id)
+        public int Delete(Department department)
         {
-            _dbContext.Departments.Remove(Get(id));
+            _dbContext.Departments.Remove(department);
             return _dbContext.SaveChanges();
         }
     }

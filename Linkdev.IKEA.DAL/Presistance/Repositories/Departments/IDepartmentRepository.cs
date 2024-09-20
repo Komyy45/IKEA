@@ -7,9 +7,11 @@ using Linkdev.IKEA.DAL.Models.Departments;
 
 namespace Linkdev.IKEA.DAL.Presistance.Repositories.Departments
 {
-    internal interface IDepartmentRepository
+    public interface IDepartmentRepository
     {
         IEnumerable<Department> GetAll(bool withAsNoTracking);
+
+        public IQueryable<Department> GetIQueryable();
 
         Department? Get(int id);
 
@@ -17,6 +19,6 @@ namespace Linkdev.IKEA.DAL.Presistance.Repositories.Departments
 
         int Update(Department department);
 
-        int Delete(int id);
+        int Delete(Department department);
     }
 }
