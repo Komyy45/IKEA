@@ -1,4 +1,6 @@
+using Linkdev.IKEA.BLL.Services.Departments;
 using Linkdev.IKEA.DAL.Presistance.Data;
+using Linkdev.IKEA.DAL.Presistance.Repositories.Departments;
 using Microsoft.EntityFrameworkCore;
 
 namespace Linkdev.IKEA.PL
@@ -18,6 +20,10 @@ namespace Linkdev.IKEA.PL
                 (optionsBuilder) => optionsBuilder.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"), 
                 (migrationOptions) => migrationOptions.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName))
                 );
+
+            builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+
+            builder.Services.AddScoped<IDepartmentService, DepartmentService>();
 
             #endregion
 

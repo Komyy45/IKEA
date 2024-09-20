@@ -9,10 +9,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Linkdev.IKEA.DAL.Migrations
+namespace Linkdev.IKEA.DAL.Presistance.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240920092528_DepartmentModuleConfigurations")]
+    [Migration("20240920160334_DepartmentModuleConfigurations")]
     partial class DepartmentModuleConfigurations
     {
         /// <inheritdoc />
@@ -56,10 +56,10 @@ namespace Linkdev.IKEA.DAL.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<int>("ModifiedBy")
+                    b.Property<int>("LastModifiedBy")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("ModifiedOn")
+                    b.Property<DateTime>("LastModifiedOn")
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("datetime2")
                         .HasComputedColumnSql("GetDate()");

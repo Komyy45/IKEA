@@ -1,0 +1,43 @@
+﻿@model CreatedDepartmentDto
+@{
+    ViewData["Title"] = "Create Department";
+}
+
+<div class="col-6 m-auto">
+    <h1 class="my-5">Create Department</h1>
+
+    <div class="alert alert-danger" asp-validation-summary="ModelOnly">
+
+    </div>
+
+    <form asp-action="Create">
+        <div class="form-group mb-4">
+            <label class="form-label" asp-for="Code"></label>
+            <input class="form-control" asp-for="Code" />
+            <span class="text-danger" asp-validation-for="Code"></span>
+        </div>
+        <div class="form-group mb-4">
+            <label class="form-label" asp-for="Name"></label>
+            <input class="form-control" asp-for="Name" />
+            <span class="text-danger" asp-validation-for="Name"></span>
+        </div>
+        <div class="form-group mb-4">
+            <label class="form-label" asp-for="Description"></label>
+            <textarea class="form-control" asp-for="Description"></textarea>
+        </div>
+        <div class="form-group mb-4">
+            <label class="form-label" asp-for="CreationDate"></label>
+            <input class="form-control" type="date" asp-for="CreationDate" />
+            <span class="text-danger" asp-validation-for="CreationDate"></span>
+        </div>
+
+        <div class="btns d-flex justify-content-end gap-4">
+
+            <input class="btn btn-outline-success" type="submit" value="Create" />
+            <a class="btn btn-outline-danger" asp-controller="Department" asp-action="Index">
+                <i class="fa-solid fa-right-to-bracket me-2"></i>    Go Back
+            </a>
+        </div>
+    </form>
+</div>
+
