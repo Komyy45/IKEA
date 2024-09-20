@@ -60,5 +60,19 @@ namespace Linkdev.IKEA.PL.Controllers.Departments
 
             return View(department);
         }
+
+        public IActionResult Details(int? id)
+        {
+            if (id is null)
+                return BadRequest();
+
+            var department = _departmentService.GetDepartmentDetails(id.Value);
+
+            if(department is { })
+                return View(department);
+
+            return NotFound();
+        }
+
     }
 }
