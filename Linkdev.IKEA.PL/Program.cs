@@ -1,3 +1,6 @@
+using Linkdev.IKEA.DAL.Presistance.Data;
+using Microsoft.EntityFrameworkCore;
+
 namespace Linkdev.IKEA.PL
 {
     public class Program
@@ -7,11 +10,22 @@ namespace Linkdev.IKEA.PL
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            #region Configure Services
+            
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddDbContext<ApplicationDbContext>(
+                (optionsBuilder) => optionsBuilder.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"), 
+                (migrationOptions) => migrationOptions.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName))
+                );
+
+            #endregion
 
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
+            #region Configure Kestral Middlewares
+
             if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Home/Error");
@@ -28,7 +42,9 @@ namespace Linkdev.IKEA.PL
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Home}/{action=Index}/{id?}"); 
+
+            #endregion
 
             app.Run();
         }
