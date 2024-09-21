@@ -10,11 +10,11 @@ using Linkdev.IKEA.DAL.Presistance.Repositories.Employees;
 
 namespace Linkdev.IKEA.BLL.Services.Employees
 {
-	internal class EmployeeService : IEmployeeService
+	public class EmployeeService : IEmployeeService
 	{
-		private readonly EmployeeRepository _employeeRepo;
+		private readonly IEmployeeRepository _employeeRepo;
 
-		public EmployeeService(EmployeeRepository employeeRepo)
+		public EmployeeService(IEmployeeRepository employeeRepo)
 		{
 			_employeeRepo = employeeRepo;
 		}
@@ -23,6 +23,7 @@ namespace Linkdev.IKEA.BLL.Services.Employees
 		{
 			return _employeeRepo.GetIQueryable().Select(employee => new EmployeeDto()
 			{
+				Id = employee.Id,
 				Name = employee.Name,
 				Email = employee.Email,
 				Age= employee.Age,
@@ -51,6 +52,10 @@ namespace Linkdev.IKEA.BLL.Services.Employees
 				   Salary = employee.Salary,
 				   Age = employee.Age,
 				   HiringDate = employee.HiringDate,
+				   CreatedBy = employee.CreatedBy,
+				   CreatedOn = employee.CreatedOn,
+				   LastModifiedBy = employee.LastModifiedBy,
+				   LastModifiedOn = employee.LastModifiedOn	
 				};
 
 			return null;

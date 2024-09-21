@@ -10,7 +10,9 @@ namespace Linkdev.IKEA.BLL.Models.Employees
 {
 	public class EmployeeDto
 	{
-		public string Name { get; set; } = null!;
+        public int Id { get; set; }
+
+        public string Name { get; set; } = null!;
 
 		public int? Age { get; set; }
 
