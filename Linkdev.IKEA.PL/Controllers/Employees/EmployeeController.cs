@@ -1,5 +1,6 @@
 ﻿using Linkdev.IKEA.BLL.Models.Employees;
 using Linkdev.IKEA.BLL.Services.Employees;
+using Linkdev.IKEA.DAL.Entities.Common.Enums;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Linkdev.IKEA.PL.Controllers.Employees
@@ -93,63 +94,64 @@ namespace Linkdev.IKEA.PL.Controllers.Employees
 
 		#region Edit
 
-		//[HttpGet] // GET : "BaseUrl/Employee/Edit/id?"
-		//public IActionResult Edit(int? id)
-		//{
-		//	if (id is null)
-		//		return BadRequest();
+		[HttpGet] // GET : "BaseUrl/Employee/Edit/id?"
+		public IActionResult Edit(int? id)
+		{
+			if (id is null)
+				return BadRequest();
 
-		//	var employee = _employeeService.GetEmployeeDetails(id.Value);
+			var employee = _employeeService.GetEmployeeDetails(id.Value);
 
-		//	if (employee is { })
-		//		return View(new EmployeeEditViewModel()
-		//		{
+			if (employee is { })
+				return View(new UpdatedEmployeeDto()
+				{
+					Id = employee.Id,
+					Name = employee.Name,
+					Address = employee.Address,
+					Age = employee.Age,
+					IsActive = employee.IsActive,
+					Email = employee.Email,
+					EmployeeType = employee.EmployeeType,
+					Gender = employee.Gender.ToString(),
+					Salary = employee.Salary,
+					HiringDate = employee.HiringDate,
+					PhoneNumber = employee.PhoneNumber,
+				});
 
-		//		});
+			return NotFound();
+		}
 
-		//	return NotFound();
-		//}
+		[HttpPost] // POST: "BaseUrl/Employee/Edit/id?"
+		public IActionResult Edit([FromRoute] int? id, UpdatedEmployeeDto employee)
+		{
+			if (id is null)
+				return BadRequest();
 
-		//[HttpPost] // POST: "BaseUrl/Employee/Edit/id?"
-		//public IActionResult Edit([FromRoute] int? id, EmployeeEditViewModel employee)
-		//{
-		//	if (id is null)
-		//		return BadRequest();
+			if (!ModelState.IsValid)
+				return View(employee);
 
-		//	if (!ModelState.IsValid)
-		//		return View(employee);
+			var message = "Employee isn't Created";
 
-		//	var updatedEmployee = new UpdatedEmployeeDto()
-		//	{
-		//		Id = id.Value,
-		//		Name = employee.Name,
-		//		Code = employee.Code,
-		//		Description = employee.Description,
-		//		CreationDate = employee.CreationDate,
-		//	};
+			try
+			{
+				var IsUpdated = _employeeService.UpdateEmployee(employee) > 0;
 
-		//	var message = "Employee isn't Created";
+				if (IsUpdated)
+					return RedirectToAction(nameof(Index));
+			}
+			catch (Exception ex)
+			{
+				// 1. Log Exception
+				_logger.LogError(ex, ex.Message);
 
-		//	try
-		//	{
-		//		var IsUpdated = _employeeService.UpdateEmployee(updatedEmployee) > 0;
+				// 2. Set Friendly Message
+				if (_enviroment.IsDevelopment())
+					message = ex.Message;
+			}
 
-		//		if (IsUpdated)
-		//			return RedirectToAction(nameof(Index));
-		//	}
-		//	catch (Exception ex)
-		//	{
-		//		// 1. Log Exception
-		//		_logger.LogError(ex, ex.Message);
-
-		//		// 2. Set Friendly Message
-		//		if (_enviroment.IsDevelopment())
-		//			message = ex.Message;
-		//	}
-
-		//	ModelState.AddModelError(string.Empty, message);
-		//	return View(employee);
-		//}
+			ModelState.AddModelError(string.Empty, message);
+			return View(employee);
+		}
 
 		#endregion
 

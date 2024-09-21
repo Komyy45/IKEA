@@ -29,12 +29,12 @@
             @foreach (var employee in Model)
             {
                 <tr>
-                    <td>@employee.Name</td>
-                    <td>@employee.Age</td>
-                    <td>@employee.Email</td>
-                    <td>@employee.Salary</td>
+                    <td>@Html.DisplayFor( X => employee.Name)</td>
+                    <td>@Html.DisplayFor( X => employee.Age)</td>
+                    <td>@Html.DisplayFor( X => employee.Email)</td>
+                    <td>@Html.DisplayFor( X => employee.Salary)</td>
                     <td>
-                        <input type="checkbox" checked="@employee.IsActive" readonly />
+                        <input disabled type="checkbox" checked="@employee.IsActive" readonly />
                     </td>
                     <td>@employee.EmployeeType</td>
                     <td>@employee.Gender</td>

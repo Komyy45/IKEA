@@ -98,7 +98,7 @@ namespace Linkdev.IKEA.BLL.Services.Employees
 				IsActive = employee.IsActive,
 				HiringDate = employee.HiringDate,
 				Gender = Enum.Parse<Gender>(employee.Gender),
-				EmployeeType = Enum.Parse<EmployeeType>(employee.EmployeeType),
+				EmployeeType = employee.EmployeeType,
 				CreatedBy = 1,
 				LastModifiedBy = 1,
 				CreatedOn = DateTime.UtcNow,

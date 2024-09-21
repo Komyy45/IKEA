@@ -16,11 +16,13 @@ namespace Linkdev.IKEA.BLL.Models.Employees
 
 		public int? Age { get; set; }
 
-		public decimal Salary { get; set; }
+        [DataType(DataType.Currency)]
+        public decimal Salary { get; set; }
 
 		[Display(Name = "Is Active")]
 		public bool IsActive { get; set; }
 
+		[DataType(DataType.EmailAddress)]
 		public string? Email { get; set; } = null!;
 
 		public string Gender { get; set; } = null!;
