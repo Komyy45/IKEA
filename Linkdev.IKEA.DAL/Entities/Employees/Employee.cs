@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Linkdev.IKEA.DAL.Models.Common.Enums;
+using Linkdev.IKEA.DAL.Entities.Common.Enums;
 
-namespace Linkdev.IKEA.DAL.Models.Employees
+namespace Linkdev.IKEA.DAL.Entities.Employees
 {
-	internal class Employee : ModelBase
+	public class Employee : ModelBase
 	{
         public string Name { get; set; } = null!;
 

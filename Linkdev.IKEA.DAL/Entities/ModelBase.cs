@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Linkdev.IKEA.DAL.Models
+namespace Linkdev.IKEA.DAL.Entities
 {
     public class ModelBase
     {

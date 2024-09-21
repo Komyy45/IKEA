@@ -4,8 +4,8 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Linkdev.IKEA.DAL.Models.Common.Enums;
-using Linkdev.IKEA.DAL.Models.Employees;
+using Linkdev.IKEA.DAL.Entities.Common.Enums;
+using Linkdev.IKEA.DAL.Entities.Employees;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

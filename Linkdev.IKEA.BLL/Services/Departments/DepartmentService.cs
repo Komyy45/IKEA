@@ -1,5 +1,5 @@
 ﻿using Linkdev.IKEA.BLL.Models.Departments;
-using Linkdev.IKEA.DAL.Models.Departments;
+using Linkdev.IKEA.DAL.Entities.Departments;
 using Linkdev.IKEA.DAL.Presistance.Repositories.Departments;
 
 namespace Linkdev.IKEA.BLL.Services.Departments

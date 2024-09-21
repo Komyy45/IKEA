@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Linkdev.IKEA.DAL.Models.Common.Enums
+namespace Linkdev.IKEA.DAL.Entities.Common.Enums
 {
-	public enum Gender : byte
+	public enum EmployeeType
 	{
-		Male = 1, 
-		Female = 2
+		PartTime = 1,
+		FullTime = 2,
 	}
 }

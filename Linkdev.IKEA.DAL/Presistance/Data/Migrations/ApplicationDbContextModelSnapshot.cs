@@ -22,7 +22,7 @@ namespace Linkdev.IKEA.DAL.Presistance.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Linkdev.IKEA.DAL.Models.Departments.Department", b =>
+            modelBuilder.Entity("Linkdev.IKEA.DAL.Entities.Departments.Department", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -71,7 +71,7 @@ namespace Linkdev.IKEA.DAL.Presistance.Data.Migrations
                     b.ToTable("Departments");
                 });
 
-            modelBuilder.Entity("Linkdev.IKEA.DAL.Models.Employees.Employee", b =>
+            modelBuilder.Entity("Linkdev.IKEA.DAL.Entities.Employees.Employee", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -134,7 +134,7 @@ namespace Linkdev.IKEA.DAL.Presistance.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Employee");
+                    b.ToTable("Employees");
                 });
 #pragma warning restore 612, 618
         }
