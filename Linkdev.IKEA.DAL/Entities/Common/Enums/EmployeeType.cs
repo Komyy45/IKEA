@@ -10,5 +10,6 @@ namespace Linkdev.IKEA.DAL.Entities.Common.Enums
 	{
 		PartTime = 1,
 		FullTime = 2,
+		Internship = 3,
 	}
 }
