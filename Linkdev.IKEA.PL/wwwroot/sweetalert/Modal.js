@@ -11,11 +11,10 @@ deleteBtns.forEach(deleteBtn =>
             dangerMode: true,
         })
             .then((willDelete) => {
-                console.log(location.pathname);
                 if (willDelete) {
                     $.ajax(
                         {
-                            url: `${location.pathname}/Delete`,
+                            url: `${location.pathname.split('/')[1]}/Delete`,
                             type: "Post",
                             data: { id: deleteBtn.getAttribute("data") },
                             success: () => {
@@ -27,7 +26,7 @@ deleteBtns.forEach(deleteBtn =>
                         }
                     )
                 } else {
-                    swal("Your department is safe!", { icon: "success" });
+                    swal(`Your ${location.pathname.split('/')[1]} is safe now!`, { icon: "success" });
                 }
             });
     }));
