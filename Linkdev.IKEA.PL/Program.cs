@@ -11,6 +11,7 @@ namespace Linkdev.IKEA.PL
         {
             var builder = WebApplication.CreateBuilder(args);
 
+
             // Add services to the container.
             #region Configure Services
             
@@ -18,9 +19,9 @@ namespace Linkdev.IKEA.PL
 
             builder.Services.AddDbContext<ApplicationDbContext>(
                 (optionsBuilder) => optionsBuilder.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"), 
-                (migrationOptions) => migrationOptions.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName))
-                );
+                (migrationOptions) => migrationOptions.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
 
+            builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
             builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
 
             builder.Services.AddScoped<IDepartmentService, DepartmentService>();

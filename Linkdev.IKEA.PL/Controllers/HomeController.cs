@@ -1,5 +1,5 @@
 using System.Diagnostics;
-using Linkdev.IKEA.PL.Models;
+using Linkdev.IKEA.PL.ViewModels.Common;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Linkdev.IKEA.PL.Controllers
