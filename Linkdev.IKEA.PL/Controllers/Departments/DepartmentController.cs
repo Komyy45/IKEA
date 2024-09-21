@@ -179,9 +179,12 @@ namespace Linkdev.IKEA.PL.Controllers.Departments
             return NotFound();
         }
 
-        [HttpPost] // POST : "BaseUrl/Department/Delete/id?"
+        [HttpPost] // POST : "BaseUrl/Department/Delete/id"
         public IActionResult Delete(int id)
         {
+            if (id == 0) 
+                return BadRequest();
+
             var message = string.Empty;
 
             try
