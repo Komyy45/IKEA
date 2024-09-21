@@ -8,6 +8,8 @@ namespace Linkdev.IKEA.PL.Controllers.Departments
 {
     public class DepartmentController : Controller
     {
+        #region Services
+        
         private readonly IDepartmentService _departmentService;
         private readonly ILogger<DepartmentController> _logger;
         private readonly IWebHostEnvironment _enviroment;
@@ -21,6 +23,10 @@ namespace Linkdev.IKEA.PL.Controllers.Departments
             _enviroment = enviroment;
         }
 
+        #endregion
+
+        #region Index
+
         [HttpGet] // GET: "BaseUrl/Departemnts/Index"
         public IActionResult Index()
         {
@@ -28,6 +34,10 @@ namespace Linkdev.IKEA.PL.Controllers.Departments
 
             return View(departments);
         }
+
+        #endregion
+
+        #region Create
 
         [HttpGet] // GET: "BaseUrl/Department/Create"
         public IActionResult Create()
@@ -43,7 +53,7 @@ namespace Linkdev.IKEA.PL.Controllers.Departments
 
             try
             {
-               var result = _departmentService.CreateDepartment(department);
+                var result = _departmentService.CreateDepartment(department);
 
                 if (result > 0)
                     return RedirectToAction(nameof(Index));
@@ -53,7 +63,7 @@ namespace Linkdev.IKEA.PL.Controllers.Departments
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, ex.Message); 
+                _logger.LogError(ex, ex.Message);
 
                 if (_enviroment.IsDevelopment())
                     ModelState.AddModelError(string.Empty, ex.Message);
@@ -65,6 +75,10 @@ namespace Linkdev.IKEA.PL.Controllers.Departments
             return View(department);
         }
 
+        #endregion
+
+        #region Details
+        
         [HttpGet] // GET : "BaseUrl/Department/Details/id?"
         public IActionResult Details(int? id)
         {
@@ -73,22 +87,26 @@ namespace Linkdev.IKEA.PL.Controllers.Departments
 
             var department = _departmentService.GetDepartmentDetails(id.Value);
 
-            if(department is { })
+            if (department is { })
                 return View(department);
 
             return NotFound();
         }
 
+        #endregion
+
+        #region Edit
+
         [HttpGet] // GET : "BaseUrl/Department/Edit/id?"
         public IActionResult Edit(int? id)
         {
-            if(id is null)
+            if (id is null)
                 return BadRequest();
 
             var department = _departmentService.GetDepartmentDetails(id.Value);
 
             if (department is { })
-                return View(new DepartmentViewModel() 
+                return View(new DepartmentViewModel()
                 {
                     Code = department.Code,
                     Name = department.Name,
@@ -100,7 +118,7 @@ namespace Linkdev.IKEA.PL.Controllers.Departments
         }
 
         [HttpPost] // POST: "BaseUrl/Department/Edit/id?"
-        public IActionResult Edit([FromRoute]int? id, DepartmentViewModel department)
+        public IActionResult Edit([FromRoute] int? id, DepartmentViewModel department)
         {
             if (id is null)
                 return BadRequest();
@@ -128,7 +146,7 @@ namespace Linkdev.IKEA.PL.Controllers.Departments
 
                 message = "Department isn't Created";
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 // 1. Log Exception
                 _logger.LogError(ex, ex.Message);
@@ -142,5 +160,51 @@ namespace Linkdev.IKEA.PL.Controllers.Departments
             ModelState.AddModelError(string.Empty, message);
             return View(department);
         }
+
+        #endregion
+
+        #region Delete
+
+        [HttpGet] // GET : "BaseUrl/Deaprtment/Delete/id?"
+        public IActionResult Delete(int? id)
+        {
+            if(id is null) return BadRequest();
+
+            var department = _departmentService.GetDepartmentDetails(id.Value);
+
+            if(department is { })
+                return View(department);
+            
+
+            return NotFound();
+        }
+
+        [HttpPost] // POST : "BaseUrl/Department/Delete/id?"
+        public IActionResult Delete(int id)
+        {
+            var message = string.Empty;
+
+            try
+            {
+                var IsDeleted = _departmentService.DeleteDepartment(id);
+
+                if (IsDeleted) return RedirectToAction(nameof(Index));
+
+                message = "An Error Has Been Occured!, Please Try Again later";
+            }
+            catch (Exception ex)
+            {
+                // 1. log Error
+                _logger.LogError(ex, ex.Message);
+
+                // 2. Friendly Message
+                message = _enviroment.IsDevelopment() ? ex.Message : "An Error Has Been Occured!, Please Try Again later";
+            }
+
+            ModelState.AddModelError(string.Empty, message);
+            return RedirectToAction(nameof(Index));
+        }
+
+        #endregion
     }
 }
