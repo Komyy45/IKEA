@@ -15,7 +15,7 @@ namespace Linkdev.IKEA.BLL.Services.Departments
 
         public IEnumerable<DepartmentDto> GetAllDepartments()
         {
-            var departments = _departmentRepo.GetIQueryable().Select(D => new { D.Id, D.Code, D.Name, D.CreationDate });
+            var departments = _departmentRepo.GetIQueryable().Where(D => !D.IsDeleted).Select(D => new { D.Id, D.Code, D.Name, D.CreationDate });
 
             foreach(var department in departments)
             {

@@ -73,27 +73,32 @@ namespace Linkdev.IKEA.PL.Controllers.Departments
                 CreationDate = department.CreationDate,
             };
 
+            var message = "Department is not Created";
+
             try
             {
                 var result = _departmentService.CreateDepartment(newDepartment);
 
                 if (result > 0)
+                {
+                    TempData["Toaster"] = "Department has been Created Successfully!";
                     return RedirectToAction(nameof(Index));
-
-                ModelState.AddModelError(string.Empty, "Department is not Created");
-                return View(department);
+                }
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
 
                 if (_enviroment.IsDevelopment())
-                    ModelState.AddModelError(string.Empty, ex.Message);
-                else
-                    ModelState.AddModelError(string.Empty, "Department is not Created");
+                    message = ex.Message;
 
+                TempData["Toaster"] = message;
+                ModelState.AddModelError(string.Empty, message);
+                return RedirectToAction(nameof(Index));
             }
 
+            TempData["Toaster"] = message;
+            ModelState.AddModelError(string.Empty, message);
             return View(department);
         }
 
