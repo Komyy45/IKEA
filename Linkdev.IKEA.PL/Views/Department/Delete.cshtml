@@ -1,9 +1,13 @@
 ﻿@model DepartmentDetailsDto
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Delete";
 }
 
 <h1 class="my-5 w-75 m-auto">Department Details</h1>
+
+<div class="alert alert-danger w-75 m-auto" asp-validation-summary="ModelOnly">
+
+</div>
 
 <div class="d-flex align-items-start border rounded w-75 m-auto p-5">
     <div class="nav flex-column nav-pills me-5" id="v-pills-tab" role="tablist" aria-orientation="vertical">
@@ -22,7 +26,7 @@
             </div>
             <div class="form-group col-12">
                 <label class="form-label" asp-for="Description"></label>
-                <textarea readonly class="form-control" asp-for="Description" ></textarea>
+                <textarea readonly class="form-control" asp-for="Description"></textarea>
             </div>
             <div class="form-group col-12">
                 <label class="form-label" asp-for="CreationDate"></label>
@@ -41,7 +45,7 @@
             </div>
             <div class="form-group col-5 d-inline-block">
                 <label class="form-label" asp-for="CreatedOn"></label>
-                <input readonly class="form-control" asp-for="CreatedOn"/>
+                <input readonly class="form-control" asp-for="CreatedOn" />
             </div>
             <div class="form-group col-5 d-inline-block">
                 <label class="form-label" asp-for="LastModifiedBy"></label>
@@ -55,11 +59,11 @@
     </div>
 </div>
 
-<div class="btns d-flex justify-content-end align-items-center gap-4 w-75 mt-5 m-auto">
-    <a class="btn btn-outline-success" asp-asp-controller="Deaprtment" asp-action="Edit" asp-route-id="@Model.Id">
-        <i class="fa-solid fa-pen-to-square me-2"></i> Edit
+<form asp-action="Delete" class="btns d-flex justify-content-end align-items-center gap-4 w-75 mt-5 m-auto">
+    <button type="submit" class="btn btn-outline-danger" asp-asp-controller="Deaprtment">
+        <i class="fa-solid fa-trash me-2"></i> Delete
+    </button>
+    <a class="btn btn-outline-success" asp-controller="Department" asp-action="Index">
+        <i class="fa-solid fa-right-to-bracket me-2"></i>  Go Back
     </a>
-    <a class="btn btn-outline-danger" asp-controller="Department" asp-action="Index">
-        <i class="fa-solid fa-right-to-bracket me-2"></i>    Go Back
-    </a>
-</div>
+</form>

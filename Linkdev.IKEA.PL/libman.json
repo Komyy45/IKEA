@@ -16,6 +16,13 @@
         "webfonts/fa-v4compatibility.ttf",
         "webfonts/fa-v4compatibility.woff2"
       ]
+    },
+    {
+      "library": "sweetalert@2.1.2",
+      "destination": "wwwroot/sweetalert/",
+      "files": [
+        "sweetalert.min.js"
+      ]
     }
   ]
 }

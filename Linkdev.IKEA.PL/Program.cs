@@ -1,6 +1,8 @@
 using Linkdev.IKEA.BLL.Services.Departments;
+using Linkdev.IKEA.BLL.Services.Employees;
 using Linkdev.IKEA.DAL.Presistance.Data;
 using Linkdev.IKEA.DAL.Presistance.Repositories.Departments;
+using Linkdev.IKEA.DAL.Presistance.Repositories.Employees;
 using Microsoft.EntityFrameworkCore;
 
 namespace Linkdev.IKEA.PL
@@ -11,6 +13,7 @@ namespace Linkdev.IKEA.PL
         {
             var builder = WebApplication.CreateBuilder(args);
 
+
             // Add services to the container.
             #region Configure Services
             
@@ -18,12 +21,15 @@ namespace Linkdev.IKEA.PL
 
             builder.Services.AddDbContext<ApplicationDbContext>(
                 (optionsBuilder) => optionsBuilder.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"), 
-                (migrationOptions) => migrationOptions.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName))
-                );
+                (migrationOptions) => migrationOptions.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
 
             builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+            builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            
 
             builder.Services.AddScoped<IDepartmentService, DepartmentService>();
+            builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+            
 
             #endregion
 

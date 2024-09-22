@@ -1,5 +1,5 @@
 ﻿using Linkdev.IKEA.BLL.Models.Departments;
-using Linkdev.IKEA.DAL.Models.Departments;
+using Linkdev.IKEA.DAL.Entities.Departments;
 using Linkdev.IKEA.DAL.Presistance.Repositories.Departments;
 
 namespace Linkdev.IKEA.BLL.Services.Departments
@@ -34,6 +34,9 @@ namespace Linkdev.IKEA.BLL.Services.Departments
         {
             var department = _departmentRepo.Get(id);
 
+
+
+
             if (department is { })
                 return new DepartmentDetailsDto()
                 {
@@ -64,6 +67,8 @@ namespace Linkdev.IKEA.BLL.Services.Departments
                 CreatedBy = 1,
                 CreatedOn = DateTime.UtcNow,
             };
+
+            
 
             return _departmentRepo.Add(newDeptartment); 
         }

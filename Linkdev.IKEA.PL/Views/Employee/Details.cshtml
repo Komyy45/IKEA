@@ -1,0 +1,94 @@
+﻿@model EmployeeDetailsDto
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1 class="my-5 w-75 m-auto">Employee Details</h1>
+
+<div class="d-flex align-items-start border rounded w-75 m-auto p-5">
+    <div class="nav flex-column nav-pills me-5" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+        <button class="nav-link active" id="v-pills-General-tab" data-bs-toggle="pill" data-bs-target="#v-pills-General" type="button" role="tab" aria-controls="v-pills-General" aria-selected="true">General</button>
+        <button class="nav-link" id="v-pills-Adminstration-tab" data-bs-toggle="pill" data-bs-target="#v-pills-Adminstration" type="button" role="tab" aria-controls="v-pills-Adminstration" aria-selected="false">Adminstration</button>
+    </div>
+    <div class="tab-content w-75 m-auto" id="v-pills-tabContent ">
+        <div class="tab-pane fade show active row" id="v-pills-General" role="tabpanel" aria-labelledby="v-pills-General-tab" tabindex="0">
+            <div class="form-group d-inline-block col-5 mb-4">
+                <label class="form-label" asp-for="Name"></label>
+                <input readonly class="form-control" asp-for="Name" />
+            </div>
+            <div class="form-group d-inline-block col-5 mb-4">
+                <label class="form-label" asp-for="Age"></label>
+                <input readonly class="form-control" asp-for="Age" />
+            </div>
+            <div class="form-group d-inline-block col-5 mb-4">
+                <label class="form-label" asp-for="Address"></label>
+                <input readonly class="form-control" asp-for="Address" />
+            </div>
+            <div class="form-group d-inline-block col-5 mb-4">
+                <label class="form-label" asp-for="Salary"></label>
+                <input readonly class="form-control" asp-for="Salary" />
+            </div>
+            <div class="form-group d-inline-block col-5 mb-4">
+                <label class="form-label" asp-for="Email"></label>
+                <input readonly class="form-control" asp-for="Email" />
+            </div>
+            <div class="form-group d-inline-block col-5 mb-4">
+                <label class="form-label" asp-for="PhoneNumber"></label>
+                <input readonly class="form-control" asp-for="PhoneNumber" />
+            </div>
+            <div class="form-group d-inline-block col-5 mb-4">
+                <label class="form-label" asp-for="HiringDate"></label>
+                <input readonly type="date" class="form-control" asp-for="HiringDate" />
+            </div>
+            <div class="form-group d-inline-block mb-4 col-6">
+                <label class="d-block mb-4" asp-for="Gender"></label>
+                @foreach (var value in Enum.GetValues<Gender>())
+                {
+                    <label class="radio-inline">
+                        <input disabled class="form-check-input" asp-for="Gender" type="radio" value="@value" />
+                        @value
+                    </label>
+                }
+            </div>
+            <div class="form-group d-inline-block mb-4 col-6">
+                <label class="form-label d-inline" asp-for="IsActive"></label>
+                <input disabled class="form-check d-inline" asp-for="IsActive" />
+            </div>
+            <select disabled class="form-select col-6" asp-for="EmployeeType" asp-items="Html.GetEnumSelectList(typeof(EmployeeType))">
+                <option selected>Choose Employee Type</option>
+            </select>
+        </div>
+        <div class="tab-pane fade" id="v-pills-Adminstration" role="tabpanel" aria-labelledby="v-pills-Adminstration-tab" tabindex="0">
+
+            <div class="form-group col-5 d-inline-block">
+                <label class="form-label" asp-for="Id"></label>
+                <input readonly class="form-control" asp-for="Id" />
+            </div>
+            <div class="form-group col-5 d-inline-block">
+                <label class="form-label" asp-for="CreatedBy"></label>
+                <input readonly class="form-control" asp-for="CreatedBy" />
+            </div>
+            <div class="form-group col-5 d-inline-block">
+                <label class="form-label" asp-for="CreatedOn"></label>
+                <input readonly class="form-control" asp-for="CreatedOn" />
+            </div>
+            <div class="form-group col-5 d-inline-block">
+                <label class="form-label" asp-for="LastModifiedBy"></label>
+                <input readonly class="form-control" asp-for="LastModifiedBy" />
+            </div>
+            <div class="form-group col-5 d-inline-block">
+                <label class="form-label" asp-for="LastModifiedOn"></label>
+                <input readonly class="form-control" asp-for="LastModifiedOn" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="btns d-flex justify-content-end align-items-center gap-4 w-75 mt-5 m-auto">
+    <a class="btn btn-outline-success" asp-asp-controller="Employee" asp-action="Edit" asp-route-id="@Model.Id">
+        <i class="fa-solid fa-pen-to-square me-2"></i> Edit
+    </a>
+    <a class="btn btn-outline-danger" asp-controller="Employee" asp-action="Index">
+        <i class="fa-solid fa-right-to-bracket me-2"></i>    Go Back
+    </a>
+</div>

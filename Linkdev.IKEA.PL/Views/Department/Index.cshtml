@@ -39,9 +39,9 @@
                         </a>
                     </td>
                     <td>
-                        <a class="btn btn-outline-danger" asp-controller="Department" asp-action="Delete" asp-route-id="@department.Id">
+                        <button id="Delete" data="@department.Id" class="btn btn-outline-danger" asp-controller="Department">
                             <i class="fa-solid fa-trash me-2"></i> Delete
-                        </a>
+                        </button>
                     </td>
                 </tr>
             }
@@ -55,4 +55,8 @@ else
             <i class="fa-solid fs-3 fa-circle-info me-2"></i> There are no Departments
         </h2>
     </div>
+}
+
+@section Scripts{
+	<script src="~/sweetalert/modal.js"></script>
 }
