@@ -21,7 +21,9 @@ namespace Linkdev.IKEA.BLL.Services.Employees
 
 		public IEnumerable<EmployeeDto> GetAllEmployees()
 		{
-			return _employeeRepo.GetIQueryable().Select(employee => new EmployeeDto()
+			return _employeeRepo.GetIQueryable()
+								.Where(E => !E.IsDeleted)
+								.Select(employee => new EmployeeDto()
 			{
 				Id = employee.Id,
 				Name = employee.Name,
@@ -31,7 +33,7 @@ namespace Linkdev.IKEA.BLL.Services.Employees
 				IsActive = employee.IsActive,
 				Gender = employee.Gender.ToString(),
 				EmployeeType = employee.EmployeeType.ToString()
-			}).ToList();
+			});
 		}
 
 		public EmployeeDetailsDto? GetEmployeeDetails(int id)
