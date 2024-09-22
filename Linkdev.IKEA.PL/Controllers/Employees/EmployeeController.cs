@@ -67,6 +67,7 @@ namespace Linkdev.IKEA.PL.Controllers.Employees
 				HiringDate = employee.HiringDate,
 				PhoneNumber = employee.PhoneNumber,
 				Salary = employee.Salary,
+				DepartmentId = employee.DepartmentId
 			};
 
 			try
@@ -162,6 +163,7 @@ namespace Linkdev.IKEA.PL.Controllers.Employees
 				Salary = employee.Salary,
 				PhoneNumber = employee.PhoneNumber,
 				HiringDate = employee.HiringDate,
+				DepartmentId = employee.DepartmentId
 			};
 
 			try

@@ -20,7 +20,8 @@ namespace Linkdev.IKEA.PL
             builder.Services.AddControllersWithViews();
 
             builder.Services.AddDbContext<ApplicationDbContext>(
-                (optionsBuilder) => optionsBuilder.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"), 
+                (optionsBuilder) => optionsBuilder.UseLazyLoadingProxies()
+                                                  .UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"), 
                 (migrationOptions) => migrationOptions.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
 
             builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();

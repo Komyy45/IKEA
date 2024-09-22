@@ -2,7 +2,6 @@
 using Linkdev.IKEA.BLL.Services.Departments;
 using Linkdev.IKEA.PL.ViewModels.Departments;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Query.Internal;
 
 namespace Linkdev.IKEA.PL.Controllers.Departments
 {

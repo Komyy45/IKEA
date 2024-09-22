@@ -20,6 +20,7 @@
                 <th>@Html.DisplayNameFor(E => E.IsActive)</th>
                 <th>@Html.DisplayNameFor(E => E.EmployeeType)</th>
                 <th>@Html.DisplayNameFor(E => E.Gender)</th>
+                <th>@Html.DisplayNameFor(E => E.Department)</th>
                 <th>Details</th>
                 <th>Update</th>
                 <th>Delete</th>
@@ -38,6 +39,7 @@
                     </td>
                     <td>@employee.EmployeeType</td>
                     <td>@employee.Gender</td>
+                    <td>@employee.Department</td>
                     <partial name="_ButtonsPartial" model="employee.Id"></partial>
                 </tr>
             }

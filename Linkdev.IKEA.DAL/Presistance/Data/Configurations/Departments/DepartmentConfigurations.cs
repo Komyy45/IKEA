@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data;
 using Linkdev.IKEA.DAL.Entities.Departments;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -37,6 +32,10 @@ namespace Linkdev.IKEA.DAL.Presistance.Data.Configurations.Departments
 
            builder.Property(D => D.LastModifiedOn)
                   .HasComputedColumnSql("GetDate()");
+
+            builder.HasMany(D => D.Employees)
+                   .WithOne(E => E.Department)
+                   .HasForeignKey(E => E.DepartmentId);
         }
     }
 }
