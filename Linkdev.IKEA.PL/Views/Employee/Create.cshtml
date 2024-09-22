@@ -72,10 +72,15 @@
         <div class="btns d-flex justify-content-end gap-4 mt-5 col-12">
 
             <input class="btn btn-outline-success" type="submit" value="Create" />
-            <a class="btn btn-outline-danger" >
+            <a class="btn btn-outline-danger" asp-controller="Employee" asp-action="Index">
                 <i class="fa-solid fa-right-to-bracket me-2"></i>    Go Back
             </a>
         </div>
     </form>
 </div>
 
+@section Scripts
+{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+}
