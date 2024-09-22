@@ -45,7 +45,8 @@ namespace Linkdev.IKEA.PL.Controllers.Employees
 		}
 
 		[HttpPost] // POST : "BaseUrl/Employee/Create"
-		public IActionResult Create(CreatedEmployeeDto employee)
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(CreatedEmployeeDto employee)
 		{
 			if (!ModelState.IsValid)
 				return View(employee);
@@ -122,7 +123,8 @@ namespace Linkdev.IKEA.PL.Controllers.Employees
 		}
 
 		[HttpPost] // POST: "BaseUrl/Employee/Edit/id?"
-		public IActionResult Edit([FromRoute] int? id, UpdatedEmployeeDto employee)
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit([FromRoute] int? id, UpdatedEmployeeDto employee)
 		{
 			if (id is null)
 				return BadRequest();
@@ -172,7 +174,8 @@ namespace Linkdev.IKEA.PL.Controllers.Employees
 		}
 
 		[HttpPost] // POST : "BaseUrl/Employee/Delete/id"
-		public IActionResult Delete(int id)
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(int id)
 		{
 			if (id == 0)
 				return BadRequest();

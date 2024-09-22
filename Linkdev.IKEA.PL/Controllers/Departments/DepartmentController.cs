@@ -46,6 +46,7 @@ namespace Linkdev.IKEA.PL.Controllers.Departments
         }
 
         [HttpPost] // POST : "BaseUrl/Department/Create"
+        [ValidateAntiForgeryToken]
         public IActionResult Create(CreatedDepartmentDto department)
         {
             if (!ModelState.IsValid)
@@ -118,6 +119,7 @@ namespace Linkdev.IKEA.PL.Controllers.Departments
         }
 
         [HttpPost] // POST: "BaseUrl/Department/Edit/id?"
+        [ValidateAntiForgeryToken]
         public IActionResult Edit([FromRoute] int? id, DepartmentViewModel department)
         {
             if (id is null)
@@ -180,6 +182,7 @@ namespace Linkdev.IKEA.PL.Controllers.Departments
         }
 
         [HttpPost] // POST : "BaseUrl/Department/Delete/id"
+        [ValidateAntiForgeryToken]
         public IActionResult Delete(int id)
         {
             if (id == 0) 
