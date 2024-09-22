@@ -1,7 +1,20 @@
 ﻿@model IEnumerable<DepartmentDto>
 @{
     ViewData["Title"] = "Deparmtents";
+
+    // string? obj01 = ViewData["Obj"] as string; // Compiler will Enforce Type Safety
+    // string? obj02 = ViewBag.Obj; // Compiler will esacape Type Checking at Compilation time as ViewBag is of type dynamic
 }
+
+
+@* 
+<div class="alert alert-info"> 
+    @ViewBag.Obj
+</div>
+<div class="alert alert-info"> 
+    @ViewData["Obj"]
+</div> *@
+
 
 <div class="d-flex justify-content-between align-items-center my-5">
     <h1>Deparmtents</h1>

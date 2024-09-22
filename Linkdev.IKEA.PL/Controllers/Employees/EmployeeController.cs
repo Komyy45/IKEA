@@ -3,6 +3,7 @@ using Linkdev.IKEA.BLL.Services.Employees;
 using Linkdev.IKEA.DAL.Entities.Common.Enums;
 using Linkdev.IKEA.PL.ViewModels.Employees;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace Linkdev.IKEA.PL.Controllers.Employees
 {
@@ -49,7 +50,7 @@ namespace Linkdev.IKEA.PL.Controllers.Employees
         [ValidateAntiForgeryToken]
         public IActionResult Create(EmployeeViewModel employee)
 		{
-			if (!ModelState.IsValid)
+            if (!ModelState.IsValid)
 				return View(employee);
 
 			var message = "Employee is not Created";

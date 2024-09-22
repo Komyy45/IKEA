@@ -32,6 +32,19 @@ namespace Linkdev.IKEA.PL.Controllers.Departments
         {
             var departments = _departmentService.GetAllDepartments();
 
+            //// View's Dictionary : Pass Data from Controller[Action] to View and (from View to PartialView )
+
+            //// 1. ViewData : A Property of type Dictionary Introduced in .NET Framework 3.5 
+            //// It helps us to transfer data from Controller [Action] to View [Razor Page]
+
+            //ViewData["Obj"] = "Hello ViewData";
+
+            //// 2. ViewBag : A Property of type dynamic Introduced in .NET Framework 4.0
+            //// It helps us to transfer data from Controller [Action] to View [Razor Page]
+
+            //ViewBag.Obj = "Hello ViewBag";
+            //ViewBag.Message = new { id = 10, Name = "Youssef" };
+
             return View(departments);
         }
 
