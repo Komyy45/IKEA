@@ -1,7 +1,8 @@
-﻿const deleteBtns = document.querySelectorAll("#Delete");
+﻿const deleteBtns = document.getElementsByName("Delete");
 
 deleteBtns.forEach(deleteBtn =>
-    deleteBtn.addEventListener("click", () => {
+
+deleteBtn.addEventListener("click", () => {
 
         swal({
             title: "Are you sure?",
@@ -11,17 +12,18 @@ deleteBtns.forEach(deleteBtn =>
             dangerMode: true,
         })
             .then((willDelete) => {
+                
                 if (willDelete) {
                     $.ajax(
                         {
                             url: `${location.pathname.split('/')[1]}/Delete`,
-                            type: "Post",
-                            data: { id: deleteBtn.getAttribute("data") },
+                            type: "POST",
+                            data: { id: deleteBtn.id },
                             success: () => {
                                 location.reload();
                             },
                             error: () => {
-                                swal("Error", "An Error has been occured while deleting!", "Error");
+                                swal("Error", "An Error has been occured while deleting!", { icon : "Error"});
                             }
                         }
                     )
@@ -29,4 +31,4 @@ deleteBtns.forEach(deleteBtn =>
                     swal(`Your ${location.pathname.split('/')[1]} is safe now!`, { icon: "success" });
                 }
             });
-    }));
+}));

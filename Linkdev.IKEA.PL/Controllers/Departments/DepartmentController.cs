@@ -47,14 +47,22 @@ namespace Linkdev.IKEA.PL.Controllers.Departments
 
         [HttpPost] // POST : "BaseUrl/Department/Create"
         [ValidateAntiForgeryToken]
-        public IActionResult Create(CreatedDepartmentDto department)
+        public IActionResult Create(DepartmentViewModel department)
         {
             if (!ModelState.IsValid)
                 return View(department);
 
+            var newDepartment = new CreatedDepartmentDto()
+            {
+                Code = department.Code,
+                Name = department.Name,
+                Description = department.Description,
+                CreationDate = department.CreationDate,
+            };
+
             try
             {
-                var result = _departmentService.CreateDepartment(department);
+                var result = _departmentService.CreateDepartment(newDepartment);
 
                 if (result > 0)
                     return RedirectToAction(nameof(Index));
@@ -182,7 +190,6 @@ namespace Linkdev.IKEA.PL.Controllers.Departments
         }
 
         [HttpPost] // POST : "BaseUrl/Department/Delete/id"
-        [ValidateAntiForgeryToken]
         public IActionResult Delete(int id)
         {
             if (id == 0) 

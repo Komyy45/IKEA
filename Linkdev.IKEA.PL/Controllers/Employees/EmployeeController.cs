@@ -1,6 +1,7 @@
 ﻿using Linkdev.IKEA.BLL.Models.Employees;
 using Linkdev.IKEA.BLL.Services.Employees;
 using Linkdev.IKEA.DAL.Entities.Common.Enums;
+using Linkdev.IKEA.PL.ViewModels.Employees;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Linkdev.IKEA.PL.Controllers.Employees
@@ -46,16 +47,30 @@ namespace Linkdev.IKEA.PL.Controllers.Employees
 
 		[HttpPost] // POST : "BaseUrl/Employee/Create"
         [ValidateAntiForgeryToken]
-        public IActionResult Create(CreatedEmployeeDto employee)
+        public IActionResult Create(EmployeeViewModel employee)
 		{
 			if (!ModelState.IsValid)
 				return View(employee);
 
 			var message = "Employee is not Created";
 
+			var newEmployee = new CreatedEmployeeDto()
+			{
+				Name = employee.Name,
+				Address = employee.Address,
+				Age = employee.Age,
+				Email = employee.Email,
+				IsActive = employee.IsActive,
+				EmployeeType = employee.EmployeeType.ToString(),
+				Gender = employee.Gender,
+				HiringDate = employee.HiringDate,
+				PhoneNumber = employee.PhoneNumber,
+				Salary = employee.Salary,
+			};
+
 			try
 			{
-				var result = _employeeService.CreateEmployee(employee);
+				var result = _employeeService.CreateEmployee(newEmployee);
 
 				if (result > 0)
 					return RedirectToAction(nameof(Index));
@@ -104,9 +119,8 @@ namespace Linkdev.IKEA.PL.Controllers.Employees
 			var employee = _employeeService.GetEmployeeDetails(id.Value);
 
 			if (employee is { })
-				return View(new UpdatedEmployeeDto()
+				return View(new EmployeeViewModel()
 				{
-					Id = employee.Id,
 					Name = employee.Name,
 					Address = employee.Address,
 					Age = employee.Age,
@@ -124,7 +138,7 @@ namespace Linkdev.IKEA.PL.Controllers.Employees
 
 		[HttpPost] // POST: "BaseUrl/Employee/Edit/id?"
         [ValidateAntiForgeryToken]
-        public IActionResult Edit([FromRoute] int? id, UpdatedEmployeeDto employee)
+        public IActionResult Edit([FromRoute] int? id, EmployeeViewModel employee)
 		{
 			if (id is null)
 				return BadRequest();
@@ -134,9 +148,24 @@ namespace Linkdev.IKEA.PL.Controllers.Employees
 
 			var message = "Employee isn't Created";
 
+			var UpdatedEmployee = new UpdatedEmployeeDto()
+			{
+				Id = id.Value,
+				Name = employee.Name,
+				Address = employee.Address,
+				Age = employee.Age,
+				IsActive = employee.IsActive,
+				Email = employee.Email,
+				EmployeeType = employee.EmployeeType,
+				Gender = employee.Gender.ToString(),
+				Salary = employee.Salary,
+				PhoneNumber = employee.PhoneNumber,
+				HiringDate = employee.HiringDate,
+			};
+
 			try
 			{
-				var IsUpdated = _employeeService.UpdateEmployee(employee) > 0;
+				var IsUpdated = _employeeService.UpdateEmployee(UpdatedEmployee) > 0;
 
 				if (IsUpdated)
 					return RedirectToAction(nameof(Index));
@@ -174,7 +203,6 @@ namespace Linkdev.IKEA.PL.Controllers.Employees
 		}
 
 		[HttpPost] // POST : "BaseUrl/Employee/Delete/id"
-        [ValidateAntiForgeryToken]
         public IActionResult Delete(int id)
 		{
 			if (id == 0)
