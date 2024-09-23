@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Linkdev.IKEA.DAL.Entities.Common.Enums;
+using Linkdev.IKEA.DAL.Entities.Departments;
 
 namespace Linkdev.IKEA.BLL.Models.Employees
 {
@@ -29,5 +30,7 @@ namespace Linkdev.IKEA.BLL.Models.Employees
 
 		[Display(Name = "Employee Type")]
 		public string EmployeeType { get; set; } = null!;
-	}
+
+        public string? Department { get; set; }
+    }
 }

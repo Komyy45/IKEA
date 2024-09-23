@@ -8,6 +8,8 @@ namespace Linkdev.IKEA.DAL.Presistance.Repositories._Generic
 
 		public IQueryable<T> GetIQueryable();
 
+		public IEnumerable<T> GetIEnumerable();
+
 		T? Get(int id);
 
 		int Add(T T);

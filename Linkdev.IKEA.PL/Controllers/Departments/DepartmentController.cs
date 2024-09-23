@@ -2,7 +2,6 @@
 using Linkdev.IKEA.BLL.Services.Departments;
 using Linkdev.IKEA.PL.ViewModels.Departments;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Query.Internal;
 
 namespace Linkdev.IKEA.PL.Controllers.Departments
 {
@@ -32,6 +31,19 @@ namespace Linkdev.IKEA.PL.Controllers.Departments
         {
             var departments = _departmentService.GetAllDepartments();
 
+            //// View's Dictionary : Pass Data from Controller[Action] to View and (from View to PartialView )
+
+            //// 1. ViewData : A Property of type Dictionary Introduced in .NET Framework 3.5 
+            //// It helps us to transfer data from Controller [Action] to View [Razor Page]
+
+            //ViewData["Obj"] = "Hello ViewData";
+
+            //// 2. ViewBag : A Property of type dynamic Introduced in .NET Framework 4.0
+            //// It helps us to transfer data from Controller [Action] to View [Razor Page]
+
+            //ViewBag.Obj = "Hello ViewBag";
+            //ViewBag.Message = new { id = 10, Name = "Youssef" };
+
             return View(departments);
         }
 
@@ -46,32 +58,46 @@ namespace Linkdev.IKEA.PL.Controllers.Departments
         }
 
         [HttpPost] // POST : "BaseUrl/Department/Create"
-        public IActionResult Create(CreatedDepartmentDto department)
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(DepartmentViewModel department)
         {
             if (!ModelState.IsValid)
                 return View(department);
 
+            var newDepartment = new CreatedDepartmentDto()
+            {
+                Code = department.Code,
+                Name = department.Name,
+                Description = department.Description,
+                CreationDate = department.CreationDate,
+            };
+
+            var message = "Department is not Created";
+
             try
             {
-                var result = _departmentService.CreateDepartment(department);
+                var result = _departmentService.CreateDepartment(newDepartment);
 
                 if (result > 0)
+                {
+                    TempData["Toaster"] = "Department has been Created Successfully!";
                     return RedirectToAction(nameof(Index));
-
-                ModelState.AddModelError(string.Empty, "Department is not Created");
-                return View(department);
+                }
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
 
                 if (_enviroment.IsDevelopment())
-                    ModelState.AddModelError(string.Empty, ex.Message);
-                else
-                    ModelState.AddModelError(string.Empty, "Department is not Created");
+                    message = ex.Message;
 
+                TempData["Toaster"] = message;
+                ModelState.AddModelError(string.Empty, message);
+                return RedirectToAction(nameof(Index));
             }
 
+            TempData["Toaster"] = message;
+            ModelState.AddModelError(string.Empty, message);
             return View(department);
         }
 
@@ -118,6 +144,7 @@ namespace Linkdev.IKEA.PL.Controllers.Departments
         }
 
         [HttpPost] // POST: "BaseUrl/Department/Edit/id?"
+        [ValidateAntiForgeryToken]
         public IActionResult Edit([FromRoute] int? id, DepartmentViewModel department)
         {
             if (id is null)

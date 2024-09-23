@@ -30,8 +30,13 @@ namespace Linkdev.IKEA.DAL.Presistance.Repositories._Generic
 
 		public IQueryable<T> GetIQueryable()
 		{
-			return _dbContext.Set<T>().Where(T => !T.IsDeleted);
+			return _dbContext.Set<T>();
 		}
+
+        public IEnumerable<T> GetIEnumerable()
+        {
+			return _dbContext.Set<T>();
+        }
 
 		public T? Get(int id)
 		{
@@ -55,5 +60,5 @@ namespace Linkdev.IKEA.DAL.Presistance.Repositories._Generic
 			T.IsDeleted = true;
             return Update(T);
 		}
-	}
+    }
 }

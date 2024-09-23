@@ -7,6 +7,7 @@ using Linkdev.IKEA.BLL.Models.Employees;
 using Linkdev.IKEA.DAL.Entities.Common.Enums;
 using Linkdev.IKEA.DAL.Entities.Employees;
 using Linkdev.IKEA.DAL.Presistance.Repositories.Employees;
+using Microsoft.EntityFrameworkCore;
 
 namespace Linkdev.IKEA.BLL.Services.Employees
 {
@@ -21,17 +22,21 @@ namespace Linkdev.IKEA.BLL.Services.Employees
 
 		public IEnumerable<EmployeeDto> GetAllEmployees()
 		{
-			return _employeeRepo.GetIQueryable().Select(employee => new EmployeeDto()
-			{
-				Id = employee.Id,
-				Name = employee.Name,
-				Email = employee.Email,
-				Age= employee.Age,
-				Salary= employee.Salary,
-				IsActive = employee.IsActive,
-				Gender = employee.Gender.ToString(),
-				EmployeeType = employee.EmployeeType.ToString()
-			}).ToList();
+			return _employeeRepo.GetIQueryable()
+								.Where(E => !E.IsDeleted)
+								.Include(E => E.Department )
+								.Select(employee => new EmployeeDto()
+								{
+									Id = employee.Id,
+									Name = employee.Name,
+									Email = employee.Email,
+									Age= employee.Age,
+									Salary= employee.Salary,
+									IsActive = employee.IsActive,
+									Gender = employee.Gender.ToString(),
+									EmployeeType = employee.EmployeeType.ToString(),
+									Department = employee.Department.Name,
+								});
 		}
 
 		public EmployeeDetailsDto? GetEmployeeDetails(int id)
@@ -55,7 +60,8 @@ namespace Linkdev.IKEA.BLL.Services.Employees
 				   CreatedBy = employee.CreatedBy,
 				   CreatedOn = employee.CreatedOn,
 				   LastModifiedBy = employee.LastModifiedBy,
-				   LastModifiedOn = employee.LastModifiedOn	
+				   LastModifiedOn = employee.LastModifiedOn,
+				   Department = employee.Department?.Name ?? "No Department"
 				};
 
 			return null;
@@ -79,6 +85,7 @@ namespace Linkdev.IKEA.BLL.Services.Employees
 				LastModifiedBy = 1,
 				CreatedOn = DateTime.UtcNow,
 				LastModifiedOn = DateTime.UtcNow,
+				DepartmentId = employee.DepartmentId
 			};
 
 			return _employeeRepo.Add(newEmployee);
@@ -103,6 +110,7 @@ namespace Linkdev.IKEA.BLL.Services.Employees
 				LastModifiedBy = 1,
 				CreatedOn = DateTime.UtcNow,
 				LastModifiedOn = DateTime.UtcNow,
+				DepartmentId = employee.DepartmentId
 			};
 
 			return _employeeRepo.Update(newEmployee);
