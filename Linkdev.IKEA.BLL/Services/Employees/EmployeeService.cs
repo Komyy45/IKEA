@@ -27,6 +27,7 @@ namespace Linkdev.IKEA.BLL.Services.Employees
 
 
 			return _employeeRepo.GetIQueryable()
+				.Include(E => E.Department)
 				.Where(E => EF.Functions.Like(E.Name, $"%{searchValue}%"))
 				.Select(employee => new EmployeeDto()
 			{
@@ -37,13 +38,14 @@ namespace Linkdev.IKEA.BLL.Services.Employees
 				Salary= employee.Salary,
 				IsActive = employee.IsActive,
 				Gender = employee.Gender.ToString(),
-				EmployeeType = employee.EmployeeType.ToString()
-			}).ToList();
+				EmployeeType = employee.EmployeeType.ToString(),
+                Department = (employee.Department == null ? "No Department" : employee.Department.Name)
+                }).ToList();
 		}
 
 		public EmployeeDetailsDto? GetEmployeeDetails(int id)
 		{
-			var employee = _employeeRepo.Get(id);
+			var employee = _employeeRepo.GetIQueryable().Include(E => E.Department).FirstOrDefault(X => X.Id == id);
 
 			if (employee is { })
 				return new EmployeeDetailsDto()
@@ -62,7 +64,8 @@ namespace Linkdev.IKEA.BLL.Services.Employees
 				   CreatedBy = employee.CreatedBy,
 				   CreatedOn = employee.CreatedOn,
 				   LastModifiedBy = employee.LastModifiedBy,
-				   LastModifiedOn = employee.LastModifiedOn	
+				   LastModifiedOn = employee.LastModifiedOn,
+				   Department = (employee.Department is null ? "No Department" : employee.Department.Name)
 				};
 
 			return null;
@@ -86,6 +89,7 @@ namespace Linkdev.IKEA.BLL.Services.Employees
 				LastModifiedBy = 1,
 				CreatedOn = DateTime.UtcNow,
 				LastModifiedOn = DateTime.UtcNow,
+				DepartmentId = employee.DepartmentId,
 			};
 
 			return _employeeRepo.Add(newEmployee);
@@ -110,6 +114,7 @@ namespace Linkdev.IKEA.BLL.Services.Employees
 				LastModifiedBy = 1,
 				CreatedOn = DateTime.UtcNow,
 				LastModifiedOn = DateTime.UtcNow,
+				DepartmentId = employee.DepartmentId
 			};
 
 			return _employeeRepo.Update(newEmployee);

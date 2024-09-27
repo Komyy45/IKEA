@@ -1,4 +1,5 @@
-﻿using Linkdev.IKEA.BLL.Models.Departments;
+﻿using AutoMapper;
+using Linkdev.IKEA.BLL.Models.Departments;
 using Linkdev.IKEA.BLL.Services.Departments;
 using Linkdev.IKEA.PL.ViewModels.Departments;
 using Microsoft.AspNetCore.Mvc;
@@ -12,14 +13,17 @@ namespace Linkdev.IKEA.PL.Controllers.Departments
         private readonly IDepartmentService _departmentService;
         private readonly ILogger<DepartmentController> _logger;
         private readonly IWebHostEnvironment _enviroment;
+        private readonly IMapper _mapper;
 
         public DepartmentController(IDepartmentService departmentService,
                                     ILogger<DepartmentController> logger,
-                                    IWebHostEnvironment enviroment)
+                                    IWebHostEnvironment enviroment,
+                                    IMapper mapper)
         {
             _departmentService = departmentService;
             _logger = logger;
             _enviroment = enviroment;
+            _mapper = mapper;
         }
 
         #endregion
@@ -64,13 +68,7 @@ namespace Linkdev.IKEA.PL.Controllers.Departments
             if (!ModelState.IsValid)
                 return View(department);
 
-            var newDepartment = new CreatedDepartmentDto()
-            {
-                Code = department.Code,
-                Name = department.Name,
-                Description = department.Description,
-                CreationDate = department.CreationDate,
-            };
+            var newDepartment = _mapper.Map<CreatedDepartmentDto>(department);
 
             var message = "Department is not Created";
 
@@ -153,14 +151,7 @@ namespace Linkdev.IKEA.PL.Controllers.Departments
             if (!ModelState.IsValid)
                 return View(department);
 
-            var updatedDepartment = new UpdatedDepartmentDto()
-            {
-                Id = id.Value,
-                Name = department.Name,
-                Code = department.Code,
-                Description = department.Description,
-                CreationDate = department.CreationDate,
-            };
+            var updatedDepartment = _mapper.Map<DepartmentViewModel, UpdatedDepartmentDto>(department);
 
             var message = string.Empty;
 

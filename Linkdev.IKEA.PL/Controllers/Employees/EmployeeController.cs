@@ -1,4 +1,6 @@
-﻿using Linkdev.IKEA.BLL.Models.Employees;
+﻿using AutoMapper;
+using Linkdev.IKEA.BLL.Models.Departments;
+using Linkdev.IKEA.BLL.Models.Employees;
 using Linkdev.IKEA.BLL.Services.Employees;
 using Linkdev.IKEA.DAL.Entities.Common.Enums;
 using Linkdev.IKEA.PL.ViewModels.Employees;
@@ -16,15 +18,18 @@ namespace Linkdev.IKEA.PL.Controllers.Employees
 		private readonly IEmployeeService _employeeService;
 		private readonly ILogger<EmployeeController> _logger;
 		private readonly IWebHostEnvironment _enviroment;
+        private readonly IMapper _mapper;
 
-		public EmployeeController(IEmployeeService employeeService,
+        public EmployeeController(IEmployeeService employeeService,
 									ILogger<EmployeeController> logger,
-									IWebHostEnvironment enviroment)
+									IWebHostEnvironment enviroment,
+									IMapper mapper)
 		{
 			_employeeService = employeeService;
 			_logger = logger;
 			_enviroment = enviroment;
-		}
+            _mapper = mapper;
+        }
 
 		#endregion
 
@@ -60,20 +65,7 @@ namespace Linkdev.IKEA.PL.Controllers.Employees
 
 			var message = "Employee is not Created";
 
-			var newEmployee = new CreatedEmployeeDto()
-			{
-				Name = employee.Name,
-				Address = employee.Address,
-				Age = employee.Age,
-				Email = employee.Email,
-				IsActive = employee.IsActive,
-				EmployeeType = employee.EmployeeType.ToString(),
-				Gender = employee.Gender,
-				HiringDate = employee.HiringDate,
-				PhoneNumber = employee.PhoneNumber,
-				Salary = employee.Salary,
-				DepartmentId = employee.DepartmentId
-			};
+			var newEmployee = _mapper.Map<CreatedEmployeeDto>(employee);
 
 			try
 			{
@@ -125,20 +117,10 @@ namespace Linkdev.IKEA.PL.Controllers.Employees
 
 			var employee = _employeeService.GetEmployeeDetails(id.Value);
 
+			var employeeViewModel = _mapper.Map<EmployeeViewModel>(employee);
+
 			if (employee is { })
-				return View(new EmployeeViewModel()
-				{
-					Name = employee.Name,
-					Address = employee.Address,
-					Age = employee.Age,
-					IsActive = employee.IsActive,
-					Email = employee.Email,
-					EmployeeType = employee.EmployeeType,
-					Gender = employee.Gender.ToString(),
-					Salary = employee.Salary,
-					HiringDate = employee.HiringDate,
-					PhoneNumber = employee.PhoneNumber,
-				});
+				return View(employeeViewModel);
 
 			return NotFound();
 		}
@@ -155,21 +137,7 @@ namespace Linkdev.IKEA.PL.Controllers.Employees
 
 			var message = "Employee isn't Created";
 
-			var UpdatedEmployee = new UpdatedEmployeeDto()
-			{
-				Id = id.Value,
-				Name = employee.Name,
-				Address = employee.Address,
-				Age = employee.Age,
-				IsActive = employee.IsActive,
-				Email = employee.Email,
-				EmployeeType = employee.EmployeeType,
-				Gender = employee.Gender.ToString(),
-				Salary = employee.Salary,
-				PhoneNumber = employee.PhoneNumber,
-				HiringDate = employee.HiringDate,
-				DepartmentId = employee.DepartmentId
-			};
+			var UpdatedEmployee = _mapper.Map<UpdatedEmployeeDto>(employee);
 
 			try
 			{

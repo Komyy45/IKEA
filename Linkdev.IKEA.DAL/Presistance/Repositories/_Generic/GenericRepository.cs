@@ -30,7 +30,7 @@ namespace Linkdev.IKEA.DAL.Presistance.Repositories._Generic
 
 		public IQueryable<T> GetIQueryable()
 		{
-			return _dbContext.Set<T>();
+			return _dbContext.Set<T>().Where(X => !X.IsDeleted);
 		}
 
         public IEnumerable<T> GetIEnumerable()
