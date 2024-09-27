@@ -3,11 +3,9 @@ const searchInput = document.getElementById("SearchInp");
 
 searchInput.addEventListener("keyup", () => { 
 
-    if (searchInput.value == "") return;
-
     const xhr = new XMLHttpRequest();
 
-    xhr.open("GET", `https://localhost:7127/Employee/Index?searchValue=${searchInput.value}`);
+    xhr.open("GET", `/Employee/Search?searchValue=${searchInput.value}`);
 
     xhr.send();
 

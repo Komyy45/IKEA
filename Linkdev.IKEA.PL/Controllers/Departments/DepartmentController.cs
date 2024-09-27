@@ -151,7 +151,7 @@ namespace Linkdev.IKEA.PL.Controllers.Departments
             if (!ModelState.IsValid)
                 return View(department);
 
-            var updatedDepartment = _mapper.Map<DepartmentViewModel, UpdatedDepartmentDto>(department);
+            var updatedDepartment = _mapper.Map<DepartmentViewModel, UpdatedDepartmentDto>(department, context => context.Items["Id"] = $"{id}");
 
             var message = string.Empty;
 

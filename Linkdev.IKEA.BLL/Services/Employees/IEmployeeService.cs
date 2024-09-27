@@ -10,7 +10,7 @@ namespace Linkdev.IKEA.BLL.Services.Employees
 {
 	public interface IEmployeeService
 	{
-		IEnumerable<EmployeeDto> GetEmployees(string searchValue);
+		IEnumerable<EmployeeDto> GetEmployees(string searchValue = null!);
 
 		EmployeeDetailsDto? GetEmployeeDetails(int id);
 

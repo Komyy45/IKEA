@@ -1,23 +1,25 @@
 ﻿using Linkdev.IKEA.BLL.Models.Departments;
 using Linkdev.IKEA.DAL.Entities.Departments;
 using Linkdev.IKEA.DAL.Presistance.Repositories.Departments;
+using Linkdev.IKEA.DAL.Presistance.UnitOfWork;
 
 namespace Linkdev.IKEA.BLL.Services.Departments
 {
     public class DepartmentService : IDepartmentService
     {
-        private readonly IDepartmentRepository _departmentRepo;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public DepartmentService(IDepartmentRepository departmentRepo)
+        public DepartmentService(IUnitOfWork unitOfWork)
         {
-            _departmentRepo = departmentRepo;
+            _unitOfWork = unitOfWork;
         }
 
         public IEnumerable<DepartmentDto> GetAllDepartments()
         {
-            var departments = _departmentRepo.GetIQueryable().Where(D => !D.IsDeleted).Select(D => new { D.Id, D.Code, D.Name, D.CreationDate });
+            var departments = _unitOfWork.DepartmentRepository.GetIQueryable().Where(D => !D.IsDeleted).Select(D => new { D.Id, D.Code, D.Name, D.CreationDate });
 
-            foreach(var department in departments)
+
+            foreach (var department in departments)
             {
                 yield return new DepartmentDto
                 {
@@ -32,10 +34,7 @@ namespace Linkdev.IKEA.BLL.Services.Departments
 
         public DepartmentDetailsDto? GetDepartmentDetails(int id)
         {
-            var department = _departmentRepo.Get(id);
-
-
-
+            var department = _unitOfWork.DepartmentRepository.Get(id);
 
             if (department is { })
                 return new DepartmentDetailsDto()
@@ -70,7 +69,9 @@ namespace Linkdev.IKEA.BLL.Services.Departments
 
             
 
-            return _departmentRepo.Add(newDeptartment); 
+            _unitOfWork.DepartmentRepository.Add(newDeptartment);
+
+            return _unitOfWork.Complete();
         }
         public int UpdateDepartment(UpdatedDepartmentDto department)
         {
@@ -87,17 +88,19 @@ namespace Linkdev.IKEA.BLL.Services.Departments
                 CreatedOn = DateTime.UtcNow,
             };
 
-            return _departmentRepo.Update(updatedDeptartment);
+            _unitOfWork.DepartmentRepository.Update(updatedDeptartment);
+        
+            return _unitOfWork.Complete();
         }
 
         public bool DeleteDepartment(int id)
         {
-            var department = _departmentRepo.Get(id);
+            var department = _unitOfWork.DepartmentRepository.Get(id);
 
             if (department is { })
-                return _departmentRepo.Delete(department) > 0;
+                _unitOfWork.DepartmentRepository.Delete(department);
 
-            return false;
+            return _unitOfWork.Complete() > 0;
         }
     }
 }

@@ -20,10 +20,11 @@ deleteBtn.addEventListener("click", () => {
                             type: "POST",
                             data: { id: deleteBtn.id },
                             success: () => {
-                                location.reload();
+                                deleteBtn.parentElement.parentElement.remove();
+                                swal(`Your ${location.pathname.split('/')[1]} has been deleted successfully!`, { icon: "success" });
                             },
                             error: () => {
-                                swal("Error", "An Error has been occured while deleting!", { icon : "Error"});
+                                swal("Error", "An Error has been occured while deleting!", { icon : "info"});
                             }
                         }
                     )

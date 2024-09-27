@@ -3,6 +3,7 @@ using Linkdev.IKEA.BLL.Models.Departments;
 using Linkdev.IKEA.BLL.Models.Employees;
 using Linkdev.IKEA.BLL.Services.Employees;
 using Linkdev.IKEA.DAL.Entities.Common.Enums;
+using Linkdev.IKEA.DAL.Entities.Employees;
 using Linkdev.IKEA.PL.ViewModels.Employees;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.DotNet.Scaffolding.Shared;
@@ -36,15 +37,20 @@ namespace Linkdev.IKEA.PL.Controllers.Employees
 		#region Index
 
 		[HttpGet] // GET: "BaseUrl/Employee/Index"
-		public IActionResult Index(string searchValue)
+		public IActionResult Index()
 		{
-			var employees = _employeeService.GetEmployees(searchValue);
-
-			if (searchValue is not null)
-				return PartialView("Partials/_EmployeeListPartial", employees);
+			var employees = _employeeService.GetEmployees();
 
 			return View(employees);
 		}
+
+		[HttpGet]
+		public IActionResult Search(string searchValue)
+		{
+            var employees = _employeeService.GetEmployees(searchValue);
+
+            return PartialView("Partials/_EmployeeListPartial", employees);
+        }
 
 		#endregion
 
@@ -137,7 +143,7 @@ namespace Linkdev.IKEA.PL.Controllers.Employees
 
 			var message = "Employee isn't Created";
 
-			var UpdatedEmployee = _mapper.Map<UpdatedEmployeeDto>(employee);
+			var UpdatedEmployee = _mapper.Map<UpdatedEmployeeDto>(employee, (context) => context.Items["Id"] = $"{id}");
 
 			try
 			{

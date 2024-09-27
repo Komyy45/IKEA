@@ -12,16 +12,18 @@ namespace Linkdev.IKEA.PL.Mapping
         public MappingProfile()
         {
             #region Department
-            
+
             CreateMap<DepartmentViewModel, CreatedDepartmentDto>();
 
-            CreateMap<DepartmentViewModel, UpdatedDepartmentDto>(); 
+            CreateMap<DepartmentViewModel, UpdatedDepartmentDto>()
+                .ForMember(D => D.Id, (options) => options.MapFrom((src, dist, distMembers, context) => int.Parse((string)(context.Items.ContainsKey("Id") ? context.Items["Id"] : "0"))));
 
             #endregion
 
             #region Employee
 
-            CreateMap<EmployeeViewModel, UpdatedEmployeeDto>();
+            CreateMap<EmployeeViewModel, UpdatedEmployeeDto>()
+                .ForMember(E => E.Id, (options) => options.MapFrom((src, dist, distMembers, context) => int.Parse((string)(context.Items.ContainsKey("Id") ? context.Items["Id"] : "0"))));
 
             CreateMap<EmployeeViewModel, CreatedEmployeeDto>();
 
