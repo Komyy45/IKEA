@@ -3,6 +3,8 @@ using Linkdev.IKEA.BLL.Services.Employees;
 using Linkdev.IKEA.DAL.Entities.Common.Enums;
 using Linkdev.IKEA.PL.ViewModels.Employees;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.DotNet.Scaffolding.Shared;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace Linkdev.IKEA.PL.Controllers.Employees
@@ -29,9 +31,12 @@ namespace Linkdev.IKEA.PL.Controllers.Employees
 		#region Index
 
 		[HttpGet] // GET: "BaseUrl/Employee/Index"
-		public IActionResult Index()
+		public IActionResult Index(string searchValue)
 		{
-			var employees = _employeeService.GetAllEmployees();
+			var employees = _employeeService.GetEmployees(searchValue);
+
+			if (searchValue is not null)
+				return PartialView("Partials/_EmployeeListPartial", employees);
 
 			return View(employees);
 		}

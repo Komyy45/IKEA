@@ -1,0 +1,22 @@
+﻿@model IEnumerable<EmployeeDto>
+@{
+    ViewData["Title"] = "_EmployeeListPartial";
+}
+
+
+@foreach (var employee in Model)
+{
+    <tr>
+        <td>@Html.DisplayFor(X => employee.Name)</td>
+        <td>@Html.DisplayFor(X => employee.Age)</td>
+        <td>@Html.DisplayFor(X => employee.Email)</td>
+        <td>@Html.DisplayFor(X => employee.Salary)</td>
+        <td>
+            <input disabled type="checkbox" checked="@employee.IsActive" readonly />
+        </td>
+        <td>@employee.EmployeeType</td>
+        <td>@employee.Gender</td>
+        <td>@employee.Department</td>
+        <partial name="_ButtonsPartial" model="employee.Id"></partial>
+    </tr>
+}

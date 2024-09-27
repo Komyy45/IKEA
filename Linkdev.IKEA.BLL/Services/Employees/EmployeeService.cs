@@ -20,23 +20,25 @@ namespace Linkdev.IKEA.BLL.Services.Employees
 			_employeeRepo = employeeRepo;
 		}
 
-		public IEnumerable<EmployeeDto> GetAllEmployees()
+		public IEnumerable<EmployeeDto> GetEmployees(string searchValue)
 		{
+			if(string.IsNullOrEmpty(searchValue)) 
+				searchValue = string.Empty;
+
+
 			return _employeeRepo.GetIQueryable()
-								.Where(E => !E.IsDeleted)
-								.Include(E => E.Department )
-								.Select(employee => new EmployeeDto()
-								{
-									Id = employee.Id,
-									Name = employee.Name,
-									Email = employee.Email,
-									Age= employee.Age,
-									Salary= employee.Salary,
-									IsActive = employee.IsActive,
-									Gender = employee.Gender.ToString(),
-									EmployeeType = employee.EmployeeType.ToString(),
-									Department = employee.Department.Name,
-								});
+				.Where(E => EF.Functions.Like(E.Name, $"%{searchValue}%"))
+				.Select(employee => new EmployeeDto()
+			{
+				Id = employee.Id,
+				Name = employee.Name,
+				Email = employee.Email,
+				Age= employee.Age,
+				Salary= employee.Salary,
+				IsActive = employee.IsActive,
+				Gender = employee.Gender.ToString(),
+				EmployeeType = employee.EmployeeType.ToString()
+			}).ToList();
 		}
 
 		public EmployeeDetailsDto? GetEmployeeDetails(int id)
@@ -60,8 +62,7 @@ namespace Linkdev.IKEA.BLL.Services.Employees
 				   CreatedBy = employee.CreatedBy,
 				   CreatedOn = employee.CreatedOn,
 				   LastModifiedBy = employee.LastModifiedBy,
-				   LastModifiedOn = employee.LastModifiedOn,
-				   Department = employee.Department?.Name ?? "No Department"
+				   LastModifiedOn = employee.LastModifiedOn	
 				};
 
 			return null;
@@ -85,7 +86,6 @@ namespace Linkdev.IKEA.BLL.Services.Employees
 				LastModifiedBy = 1,
 				CreatedOn = DateTime.UtcNow,
 				LastModifiedOn = DateTime.UtcNow,
-				DepartmentId = employee.DepartmentId
 			};
 
 			return _employeeRepo.Add(newEmployee);
@@ -110,7 +110,6 @@ namespace Linkdev.IKEA.BLL.Services.Employees
 				LastModifiedBy = 1,
 				CreatedOn = DateTime.UtcNow,
 				LastModifiedOn = DateTime.UtcNow,
-				DepartmentId = employee.DepartmentId
 			};
 
 			return _employeeRepo.Update(newEmployee);
