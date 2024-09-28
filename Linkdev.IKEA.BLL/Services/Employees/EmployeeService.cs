@@ -41,7 +41,7 @@ namespace Linkdev.IKEA.BLL.Services.Employees
 				IsActive = employee.IsActive,
 				Gender = employee.Gender.ToString(),
 				EmployeeType = employee.EmployeeType.ToString(),
-                Department = (employee.Department == null ? "No Department" : employee.Department.Name)
+                Department =  (employee.Department != null && !employee.Department.IsDeleted ? employee.Department.Name : "No Department")
                 }).ToList();
 		}
 
@@ -67,7 +67,7 @@ namespace Linkdev.IKEA.BLL.Services.Employees
 				   CreatedOn = employee.CreatedOn,
 				   LastModifiedBy = employee.LastModifiedBy,
 				   LastModifiedOn = employee.LastModifiedOn,
-				   Department = (employee.Department is null ? "No Department" : employee.Department.Name)
+				   Department = (employee.Department is not null && !employee.Department.IsDeleted ? employee.Department.Name : "No Department")
 				};
 
 			return null;
