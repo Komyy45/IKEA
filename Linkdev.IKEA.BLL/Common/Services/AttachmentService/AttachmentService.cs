@@ -5,7 +5,7 @@ namespace Linkdev.IKEA.BLL.Common.Services.AttachmentService
     internal class AttachmentService : IAttachmentService
     {
         private readonly List<string> _extensions = new List<string> { ".jpg", ".png", ".jpeg" };
-        private readonly int _maxixmumSize = 2048;
+        private readonly int _maxixmumSize = 2_097_152;
 
         public string? Upload(IFormFile attachment, string folderName)
         {
