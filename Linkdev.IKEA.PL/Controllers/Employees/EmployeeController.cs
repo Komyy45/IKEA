@@ -1,18 +1,12 @@
 ﻿using AutoMapper;
-using Linkdev.IKEA.BLL.Models.Departments;
 using Linkdev.IKEA.BLL.Models.Employees;
 using Linkdev.IKEA.BLL.Services.Employees;
-using Linkdev.IKEA.DAL.Entities.Common.Enums;
-using Linkdev.IKEA.DAL.Entities.Employees;
 using Linkdev.IKEA.PL.ViewModels.Employees;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.DotNet.Scaffolding.Shared;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 
 namespace Linkdev.IKEA.PL.Controllers.Employees
 {
-	public class EmployeeController : Controller
+    public class EmployeeController : Controller
 	{
 		#region Services
 

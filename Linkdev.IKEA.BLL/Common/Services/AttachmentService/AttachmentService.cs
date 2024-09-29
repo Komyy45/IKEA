@@ -2,7 +2,7 @@
 
 namespace Linkdev.IKEA.BLL.Common.Services.AttachmentService
 {
-    internal class AttachmentService : IAttachmentService
+    public class AttachmentService : IAttachmentService
     {
         private readonly List<string> _extensions = new List<string> { ".jpg", ".png", ".jpeg" };
         private readonly int _maxixmumSize = 2_097_152;
@@ -22,7 +22,7 @@ namespace Linkdev.IKEA.BLL.Common.Services.AttachmentService
             if(!Directory.Exists(folderPath))
                 Directory.CreateDirectory(folderPath);
             
-            var fileName = $"{attachment.FileName}_{Guid.NewGuid()}";
+            var fileName = $"{Guid.NewGuid()}_{attachment.FileName}";
 
             var filePath = Path.Combine(folderPath, fileName);
 

@@ -1,25 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Linkdev.IKEA.BLL.Common.Services.AttachmentService;
 using Linkdev.IKEA.BLL.Models.Employees;
 using Linkdev.IKEA.DAL.Entities.Common.Enums;
 using Linkdev.IKEA.DAL.Entities.Employees;
-using Linkdev.IKEA.DAL.Presistance.Repositories.Employees;
 using Linkdev.IKEA.DAL.Presistance.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Linkdev.IKEA.BLL.Services.Employees
 {
-	public class EmployeeService : IEmployeeService
+    public class EmployeeService : IEmployeeService
 	{
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IAttachmentService _attachmentService;
 
-        public EmployeeService(IUnitOfWork unitOfWork)
+        public EmployeeService(IUnitOfWork unitOfWork, IAttachmentService attachmentService)
 		{
 			_unitOfWork = unitOfWork;
+            _attachmentService = attachmentService;
         }
 
 		public IEnumerable<EmployeeDto> GetEmployees(string searchValue = null!)
@@ -41,7 +37,8 @@ namespace Linkdev.IKEA.BLL.Services.Employees
 				IsActive = employee.IsActive,
 				Gender = employee.Gender.ToString(),
 				EmployeeType = employee.EmployeeType.ToString(),
-                Department =  (employee.Department != null && !employee.Department.IsDeleted ? employee.Department.Name : "No Department")
+                Department =  (employee.Department != null && !employee.Department.IsDeleted ? employee.Department.Name : "No Department"),
+				ImageUrl = employee.ImageUrl
                 }).ToList();
 		}
 
@@ -67,7 +64,8 @@ namespace Linkdev.IKEA.BLL.Services.Employees
 				   CreatedOn = employee.CreatedOn,
 				   LastModifiedBy = employee.LastModifiedBy,
 				   LastModifiedOn = employee.LastModifiedOn,
-				   Department = (employee.Department is not null && !employee.Department.IsDeleted ? employee.Department.Name : "No Department")
+				   Department = (employee.Department is not null && !employee.Department.IsDeleted ? employee.Department.Name : "No Department"),
+				   ImageUrl = employee.ImageUrl	
 				};
 
 			return null;
@@ -94,6 +92,9 @@ namespace Linkdev.IKEA.BLL.Services.Employees
 				DepartmentId = employee.DepartmentId,
 			};
 
+			if(employee.Image is not null)
+				newEmployee.ImageUrl = _attachmentService.Upload(employee.Image, "Images");
+
 			_unitOfWork.EmployeeRepository.Add(newEmployee);
 
 			return _unitOfWork.Complete();
@@ -101,7 +102,7 @@ namespace Linkdev.IKEA.BLL.Services.Employees
 
 		public int UpdateEmployee(UpdatedEmployeeDto employee)
 		{
-			var newEmployee = new Employee()
+			var updatedEmployee = new Employee()
 			{
 				Id = employee.Id,
 				Name = employee.Name,
@@ -118,10 +119,18 @@ namespace Linkdev.IKEA.BLL.Services.Employees
 				LastModifiedBy = 1,
 				CreatedOn = DateTime.UtcNow,
 				LastModifiedOn = DateTime.UtcNow,
-				DepartmentId = employee.DepartmentId
+				DepartmentId = employee.DepartmentId,
+				ImageUrl = employee.ImageUrl
 			};
 
-			_unitOfWork.EmployeeRepository.Update(newEmployee);
+			if (employee.ImageUrl is null)
+                updatedEmployee.ImageUrl = _unitOfWork.EmployeeRepository.GetIQueryable().Select(X => X.ImageUrl).FirstOrDefault();
+
+            if (employee.Image is not null)
+				updatedEmployee.ImageUrl = _attachmentService.Upload(employee.Image, "Images");
+
+
+            _unitOfWork.EmployeeRepository.Update(updatedEmployee);
 
 			return _unitOfWork.Complete();
 		}

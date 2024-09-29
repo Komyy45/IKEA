@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace Linkdev.IKEA.BLL.Common.Services.AttachmentService
 {
-    internal interface IAttachmentService
+    public interface IAttachmentService
     {
         string? Upload(IFormFile attachment, string folderName);
 

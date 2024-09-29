@@ -1,4 +1,12 @@
-﻿
+﻿const imageInput = document.getElementById("imageInput");
+
+imageInput.addEventListener("change", (e) => {
+    const imagePreview = document.getElementById("imagePreview");
+    const url = URL.createObjectURL(event.target.files[0]);
+    console.log(url);
+    imagePreview.setAttribute("src", url);
+})
+
 const searchInput = document.getElementById("SearchInp");
 
 searchInput.addEventListener("keyup", () => { 
@@ -24,3 +32,4 @@ searchInput.addEventListener("keyup", () => {
     }
 
 })
+

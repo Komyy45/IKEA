@@ -27,7 +27,8 @@ namespace Linkdev.IKEA.PL.Mapping
 
             CreateMap<EmployeeViewModel, CreatedEmployeeDto>();
 
-            CreateMap<EmployeeDetailsDto, EmployeeViewModel>(); 
+            CreateMap<EmployeeDetailsDto, EmployeeViewModel>()
+                .ForMember(dist => dist.ImageName, option => option.MapFrom(src => src.ImageUrl)); 
 
             #endregion
         }

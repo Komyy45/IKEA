@@ -32,5 +32,7 @@ namespace Linkdev.IKEA.BLL.Models.Employees
 		public string EmployeeType { get; set; } = null!;
 
         public string? Department { get; set; }
+
+        public string? ImageUrl { get; set; }
     }
 }

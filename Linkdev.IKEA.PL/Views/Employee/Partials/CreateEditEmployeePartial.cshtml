@@ -6,7 +6,17 @@
 
 @inject IDepartmentService _departmentService
 
-<form asp-action="@(ViewData["Action"] as string)" class="d-flex m-auto flex-wrap gap-3">
+<form asp-action="@(ViewData["Action"] as string)" class="d-flex m-auto flex-wrap gap-3" enctype="multipart/form-data">
+
+
+    <div class="col-6 bg-black rounded-circle d-flex justify-content-center align-items-center" style="width:250px; height:250px;">
+        <img src="~/files/Images/@Model.ImageName" alt="Profile Image" class="image rounded-circle w-100 h-100" id="imagePreview" />
+    </div>
+	<div class="form-group mb-4 col-5">
+        <input class="form-control" asp-for="Image" id="imageInput" />
+    </div>
+
+
     <div class="form-group mb-4 col-5">
         <label class="form-label" asp-for="Name"></label>
         <input class="form-control" asp-for="Name" />
@@ -26,25 +36,31 @@
         <label class="form-label" asp-for="Salary"></label>
         <input class="form-control" asp-for="Salary" />
     </div>
-
     <div class="form-group mb-4 col-5">
         <label class="form-label" asp-for="Email"></label>
         <input class="form-control" asp-for="Email" />
         <span asp-validation-for="Email"></span>
     </div>
-
     <div class="form-group mb-4 col-5">
         <label class="form-label" asp-for="PhoneNumber"></label>
         <input class="form-control" asp-for="PhoneNumber" />
         <span asp-validation-for="PhoneNumber"></span>
     </div>
-
     <div class="form-group mb-4 col-5">
         <label class="form-label" asp-for="HiringDate"></label>
         <input type="date" class="form-control" asp-for="HiringDate" />
         <span asp-validation-for="HiringDate"></span>
     </div>
-
+    <div class="form-group col-5">
+        <select class="form-select" asp-for="DepartmentId" asp-items="departments">
+            <option value="@null">Choose Employee's Department</option>
+        </select>
+    </div>
+    <div class="form-group col-5">
+        <select class="form-select" asp-for="EmployeeType" asp-items="Html.GetEnumSelectList(typeof(EmployeeType))">
+            <option selected>Choose Employee's Type</option>
+        </select>
+    </div>
     <div class="form-group mb-4 col-5">
         <label class="d-block mb-4" asp-for="Gender"></label>
         @foreach (var value in Enum.GetValues<Gender>())
@@ -55,24 +71,10 @@
             </label>
         }
     </div>
-
     <div class="form-group mb-4 col-5">
         <label class="form-label d-inline" asp-for="IsActive"></label>
         <input class="form-check d-inline" asp-for="IsActive" />
     </div>
-
-    <div class="form-group col-5">
-        <select class="form-select" asp-for="DepartmentId" asp-items="departments">
-            <option value="@null">Choose Employee's Department</option>
-        </select>
-    </div>
-
-    <div class="form-group col-5">
-        <select class="form-select" asp-for="EmployeeType" asp-items="Html.GetEnumSelectList(typeof(EmployeeType))">
-            <option selected>Choose Employee's Type</option>
-        </select>
-    </div>
-
     <div class="btns d-flex justify-content-end gap-4 mt-5 col-12">
 
         <input class="btn btn-outline-success" type="submit" value="@(ViewData["Action"] as string)" />
@@ -80,4 +82,5 @@
             <i class="fa-solid fa-right-to-bracket me-2"></i>    Go Back
         </a>
     </div>
+
 </form>
