@@ -20,12 +20,12 @@ namespace Linkdev.IKEA.DAL.Presistance.Repositories._Generic
 			_dbContext = dbContext;
 		} 
 
-		public IEnumerable<T> GetAll(bool withAsNoTracking)
+		public async Task<IEnumerable<T>> GetAllAsync(bool withAsNoTracking)
 		{
 			if (withAsNoTracking)
-				return _dbContext.Set<T>().Where(T => !T.IsDeleted).AsNoTracking().ToList();
+				return await _dbContext.Set<T>().Where(T => !T.IsDeleted).AsNoTracking().ToListAsync();
 
-			return _dbContext.Set<T>().Where(T => !T.IsDeleted).ToList();
+			return await _dbContext.Set<T>().Where(T => !T.IsDeleted).ToListAsync();
 		}
 
 		public IQueryable<T> GetIQueryable()
@@ -38,9 +38,9 @@ namespace Linkdev.IKEA.DAL.Presistance.Repositories._Generic
 			return _dbContext.Set<T>();
         }
 
-		public T? Get(int id)
+		public async Task<T?> GetAsync(int id)
 		{
-			return _dbContext.Set<T>().Find(id);
+			return  await _dbContext.Set<T>().FindAsync(id);
 		}
 
 		public void Add(T T)

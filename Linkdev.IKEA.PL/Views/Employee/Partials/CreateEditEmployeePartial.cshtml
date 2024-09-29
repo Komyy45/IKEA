@@ -2,14 +2,14 @@
 @inject IDepartmentService _departmentService
 @{
     ViewData["Title"] = "CreateEditEmployeePartial";
-    var departments = new SelectList(_departmentService.GetAllDepartments(), nameof(DepartmentDto.Id), nameof(DepartmentDto.Name));
+    var departments = new SelectList(await _departmentService.GetAllDepartmentsAsync(), nameof(DepartmentDto.Id), nameof(DepartmentDto.Name));
 }
 
 <form asp-action="@(ViewData["Action"] as string)" class="d-flex m-auto flex-wrap gap-3" enctype="multipart/form-data">
 
 
     <div class="col-6 bg-black rounded-circle" style="width:250px; height:250px;">
-        <img src="~/files/Images/@(Model is not null && Model.Image is not null? Model.Image : "NotFound.jpeg")" alt="Profile Image" class="image rounded-circle w-100 h-100" id="imagePreview" />
+        <img src="~/files/Images/@(Model is not null && Model.ImageName is not null? Model.ImageName : "NotFound.jpeg")" alt="Profile Image" class="image rounded-circle w-100 h-100" id="imagePreview" />
     </div>
 	<div class="form-group mb-4 col-5">
         <span class="button-29" id="uploadButton" role="button">Upload Image</span>

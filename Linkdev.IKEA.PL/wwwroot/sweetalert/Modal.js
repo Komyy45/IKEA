@@ -1,4 +1,5 @@
-﻿const deleteBtns = document.getElementsByName("Delete");
+﻿
+const deleteBtns = document.getElementsByName("Delete");
 
 deleteBtns.forEach(deleteBtn =>
 
@@ -33,3 +34,4 @@ deleteBtn.addEventListener("click", () => {
                 }
             });
 }));
+

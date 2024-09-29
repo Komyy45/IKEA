@@ -31,9 +31,9 @@ namespace Linkdev.IKEA.PL.Controllers.Departments
         #region Index
 
         [HttpGet] // GET: "BaseUrl/Departemnts/Index"
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var departments = _departmentService.GetAllDepartments();
+            var departments = await _departmentService.GetAllDepartmentsAsync();
 
             //// View's Dictionary : Pass Data from Controller[Action] to View and (from View to PartialView )
 
@@ -63,18 +63,18 @@ namespace Linkdev.IKEA.PL.Controllers.Departments
 
         [HttpPost] // POST : "BaseUrl/Department/Create"
         [ValidateAntiForgeryToken]
-        public IActionResult Create(DepartmentViewModel department)
+        public async Task<IActionResult> Create(DepartmentViewModel department)
         {
             if (!ModelState.IsValid)
                 return View(department);
 
-            var newDepartment = _mapper.Map<CreatedDepartmentDto>(department);
+            var newDepartment = _mapper.Map< CreatedDepartmentDto>(department);
 
             var message = "Department is not Created";
 
             try
             {
-                var result = _departmentService.CreateDepartment(newDepartment);
+                var result = await _departmentService.CreateDepartmentAsync(newDepartment);
 
                 if (result > 0)
                 {
@@ -104,12 +104,12 @@ namespace Linkdev.IKEA.PL.Controllers.Departments
         #region Details
         
         [HttpGet] // GET : "BaseUrl/Department/Details/id?"
-        public IActionResult Details(int? id)
+        public async Task<IActionResult> Details(int? id)
         {
             if (id is null)
                 return BadRequest();
 
-            var department = _departmentService.GetDepartmentDetails(id.Value);
+            var department = await _departmentService.GetDepartmentDetailsAsync(id.Value);
 
             if (department is { })
                 return View(department);
@@ -122,12 +122,12 @@ namespace Linkdev.IKEA.PL.Controllers.Departments
         #region Edit
 
         [HttpGet] // GET : "BaseUrl/Department/Edit/id?"
-        public IActionResult Edit(int? id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id is null)
                 return BadRequest();
 
-            var department = _departmentService.GetDepartmentDetails(id.Value);
+            var department = await _departmentService.GetDepartmentDetailsAsync(id.Value);
 
             if (department is { })
                 return View(new DepartmentViewModel()
@@ -143,7 +143,7 @@ namespace Linkdev.IKEA.PL.Controllers.Departments
 
         [HttpPost] // POST: "BaseUrl/Department/Edit/id?"
         [ValidateAntiForgeryToken]
-        public IActionResult Edit([FromRoute] int? id, DepartmentViewModel department)
+        public async Task<IActionResult> Edit([FromRoute] int? id, DepartmentViewModel department)
         {
             if (id is null)
                 return BadRequest();
@@ -157,7 +157,7 @@ namespace Linkdev.IKEA.PL.Controllers.Departments
 
             try
             {
-                var IsUpdated = _departmentService.UpdateDepartment(updatedDepartment) > 0;
+                var IsUpdated = await _departmentService.UpdateDepartmentAsync(updatedDepartment) > 0;
 
                 if (IsUpdated)
                     return RedirectToAction(nameof(Index));
@@ -184,11 +184,11 @@ namespace Linkdev.IKEA.PL.Controllers.Departments
         #region Delete
 
         [HttpGet] // GET : "BaseUrl/Deaprtment/Delete/id?"
-        public IActionResult Delete(int? id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if(id is null) return BadRequest();
 
-            var department = _departmentService.GetDepartmentDetails(id.Value);
+            var department = await _departmentService.GetDepartmentDetailsAsync(id.Value);
 
             if(department is { })
                 return View(department);
@@ -198,7 +198,7 @@ namespace Linkdev.IKEA.PL.Controllers.Departments
         }
 
         [HttpPost] // POST : "BaseUrl/Department/Delete/id"
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             if (id == 0) 
                 return BadRequest();
@@ -207,7 +207,7 @@ namespace Linkdev.IKEA.PL.Controllers.Departments
 
             try
             {
-                var IsDeleted = _departmentService.DeleteDepartment(id);
+                var IsDeleted = await _departmentService.DeleteDepartmentAsync(id);
 
                 if (IsDeleted) return RedirectToAction(nameof(Index));
 

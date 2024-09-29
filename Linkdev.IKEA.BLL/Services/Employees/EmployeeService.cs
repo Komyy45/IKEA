@@ -18,13 +18,13 @@ namespace Linkdev.IKEA.BLL.Services.Employees
             _attachmentService = attachmentService;
         }
 
-		public IEnumerable<EmployeeDto> GetEmployees(string searchValue = null!)
+		public async Task<IEnumerable<EmployeeDto>> GetEmployeesAsync(string searchValue = null!)
 		{
 			if(string.IsNullOrEmpty(searchValue)) 
 				searchValue = string.Empty;
 
 
-			return _unitOfWork.EmployeeRepository.GetIQueryable()
+			return await _unitOfWork.EmployeeRepository.GetIQueryable()
 				.Include(E => E.Department)
 				.Where(E => EF.Functions.Like(E.Name, $"%{searchValue}%"))
 				.Select(employee => new EmployeeDto()
@@ -39,12 +39,12 @@ namespace Linkdev.IKEA.BLL.Services.Employees
 				EmployeeType = employee.EmployeeType.ToString(),
                 Department =  (employee.Department != null && !employee.Department.IsDeleted ? employee.Department.Name : "No Department"),
 				ImageUrl = employee.ImageUrl
-                }).ToList();
+                }).ToListAsync();
 		}
 
-		public EmployeeDetailsDto? GetEmployeeDetails(int id)
+		public async Task<EmployeeDetailsDto?> GetEmployeeDetailsAsync(int id)
 		{
-			var employee = _unitOfWork.EmployeeRepository.GetIQueryable().Include(E => E.Department).FirstOrDefault(X => X.Id == id);
+			var employee = await _unitOfWork.EmployeeRepository.GetIQueryable().Include(E => E.Department).FirstOrDefaultAsync(X => X.Id == id);
 
 			if (employee is { })
 				return new EmployeeDetailsDto()
@@ -71,7 +71,7 @@ namespace Linkdev.IKEA.BLL.Services.Employees
 			return null;
 		}
 
-		public int CreateEmployee(CreatedEmployeeDto employee)
+		public async Task<int> CreateEmployeeAsync(CreatedEmployeeDto employee)
 		{
 			var newEmployee = new Employee()
 			{
@@ -93,14 +93,14 @@ namespace Linkdev.IKEA.BLL.Services.Employees
 			};
 
 			if(employee.Image is not null)
-				newEmployee.ImageUrl = _attachmentService.Upload(employee.Image, "Images");
+				newEmployee.ImageUrl = await _attachmentService.UploadAsync(employee.Image, "Images");
 
 			_unitOfWork.EmployeeRepository.Add(newEmployee);
 
-			return _unitOfWork.Complete();
+			return await _unitOfWork.CompleteAsync();
 		}
 
-		public int UpdateEmployee(UpdatedEmployeeDto employee)
+		public async Task<int> UpdateEmployeeAsync(UpdatedEmployeeDto employee)
 		{
 			var updatedEmployee = new Employee()
 			{
@@ -124,25 +124,25 @@ namespace Linkdev.IKEA.BLL.Services.Employees
 			};
 
 			if (employee.ImageUrl is null)
-                updatedEmployee.ImageUrl = _unitOfWork.EmployeeRepository.GetIQueryable().Select(X => X.ImageUrl).FirstOrDefault();
+                updatedEmployee.ImageUrl = await _unitOfWork.EmployeeRepository.GetIQueryable().Select(X => X.ImageUrl).FirstOrDefaultAsync();
 
             if (employee.Image is not null)
-				updatedEmployee.ImageUrl = _attachmentService.Upload(employee.Image, "Images");
+				updatedEmployee.ImageUrl = await _attachmentService.UploadAsync(employee.Image, "Images");
 
 
             _unitOfWork.EmployeeRepository.Update(updatedEmployee);
 
-			return _unitOfWork.Complete();
+			return await _unitOfWork.CompleteAsync();
 		}
 
-		public bool DeleteEmployee(int id)
+		public async Task<bool> DeleteEmployeeAsync(int id)
 		{
-			var employee = _unitOfWork.EmployeeRepository.Get(id);
+			var employee = await _unitOfWork.EmployeeRepository.GetAsync(id);
 
 			if(employee is { })
 				_unitOfWork.EmployeeRepository.Delete(employee);
 
-			return _unitOfWork.Complete() > 0;
+			return await _unitOfWork.CompleteAsync() > 0;
 		}
 	}
 }

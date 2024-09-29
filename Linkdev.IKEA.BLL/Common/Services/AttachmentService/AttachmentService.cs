@@ -7,7 +7,7 @@ namespace Linkdev.IKEA.BLL.Common.Services.AttachmentService
         private readonly List<string> _extensions = new List<string> { ".jpg", ".png", ".jpeg" };
         private readonly int _maxixmumSize = 2_097_152;
 
-        public string? Upload(IFormFile attachment, string folderName)
+        public async Task<string?> UploadAsync(IFormFile attachment, string folderName)
         {
             var extension = Path.GetExtension(attachment.FileName);
 
@@ -28,7 +28,7 @@ namespace Linkdev.IKEA.BLL.Common.Services.AttachmentService
 
             using var fileStream = new FileStream(filePath, FileMode.Create);
 
-            attachment.CopyTo(fileStream);
+            await attachment.CopyToAsync(fileStream);
 
             return fileName;
         }

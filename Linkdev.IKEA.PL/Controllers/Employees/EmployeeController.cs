@@ -31,17 +31,17 @@ namespace Linkdev.IKEA.PL.Controllers.Employees
 		#region Index
 
 		[HttpGet] // GET: "BaseUrl/Employee/Index"
-		public IActionResult Index()
+		public async Task<IActionResult> Index()
 		{
-			var employees = _employeeService.GetEmployees();
+			var employees = await _employeeService.GetEmployeesAsync();
 
 			return View(employees);
 		}
 
 		[HttpGet]
-		public IActionResult Search(string searchValue)
+		public async Task<IActionResult> Search(string searchValue)
 		{
-            var employees = _employeeService.GetEmployees(searchValue);
+            var employees = await _employeeService.GetEmployeesAsync(searchValue);
 
             return PartialView("Partials/_EmployeeListPartial", employees);
         }
@@ -58,7 +58,7 @@ namespace Linkdev.IKEA.PL.Controllers.Employees
 
 		[HttpPost] // POST : "BaseUrl/Employee/Create"
         [ValidateAntiForgeryToken]
-        public IActionResult Create(EmployeeViewModel employee)
+        public async Task<IActionResult> Create(EmployeeViewModel employee)
 		{
             if (!ModelState.IsValid)
 				return View(employee);
@@ -69,7 +69,7 @@ namespace Linkdev.IKEA.PL.Controllers.Employees
 
 			try
 			{
-				var result = _employeeService.CreateEmployee(newEmployee);
+				var result = await _employeeService.CreateEmployeeAsync(newEmployee);
 
 				if (result > 0)
 					return RedirectToAction(nameof(Index));
@@ -92,12 +92,12 @@ namespace Linkdev.IKEA.PL.Controllers.Employees
 		#region Details
 
 		[HttpGet] // GET : "BaseUrl/Employee/Details/id?"
-		public IActionResult Details(int? id)
+		public async Task<IActionResult> Details(int? id)
 		{
 			if (id is null)
 				return BadRequest();
 
-			var employee = _employeeService.GetEmployeeDetails(id.Value);
+			var employee = await _employeeService.GetEmployeeDetailsAsync(id.Value);
 
 			if (employee is { })
 				return View(employee);
@@ -110,12 +110,12 @@ namespace Linkdev.IKEA.PL.Controllers.Employees
 		#region Edit
 
 		[HttpGet] // GET : "BaseUrl/Employee/Edit/id?"
-		public IActionResult Edit(int? id)
+		public async Task<IActionResult> Edit(int? id)
 		{
 			if (id is null)
 				return BadRequest();
 
-			var employee = _employeeService.GetEmployeeDetails(id.Value);
+			var employee = await _employeeService.GetEmployeeDetailsAsync(id.Value);
 
 			var employeeViewModel = _mapper.Map<EmployeeViewModel>(employee);
 
@@ -127,7 +127,7 @@ namespace Linkdev.IKEA.PL.Controllers.Employees
 
 		[HttpPost] // POST: "BaseUrl/Employee/Edit/id?"
         [ValidateAntiForgeryToken]
-        public IActionResult Edit([FromRoute] int? id, EmployeeViewModel employee)
+        public async Task<IActionResult> Edit([FromRoute] int? id, EmployeeViewModel employee)
 		{
 			if (id is null)
 				return BadRequest();
@@ -141,7 +141,7 @@ namespace Linkdev.IKEA.PL.Controllers.Employees
 
 			try
 			{
-				var IsUpdated = _employeeService.UpdateEmployee(UpdatedEmployee) > 0;
+				var IsUpdated = await _employeeService.UpdateEmployeeAsync(UpdatedEmployee) > 0;
 
 				if (IsUpdated)
 					return RedirectToAction(nameof(Index));
@@ -165,11 +165,11 @@ namespace Linkdev.IKEA.PL.Controllers.Employees
 		#region Delete
 
 		[HttpGet] // GET : "BaseUrl/Employee/Delete/id?"
-		public IActionResult Delete(int? id)
+		public async Task<IActionResult> Delete(int? id)
 		{
 			if (id is null) return BadRequest();
 
-			var employee = _employeeService.GetEmployeeDetails(id.Value);
+			var employee = await _employeeService.GetEmployeeDetailsAsync(id.Value);
 
 			if (employee is { })
 				return View(employee);
@@ -179,7 +179,7 @@ namespace Linkdev.IKEA.PL.Controllers.Employees
 		}
 
 		[HttpPost] // POST : "BaseUrl/Employee/Delete/id"
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
 		{
 			if (id == 0)
 				return BadRequest();
@@ -188,7 +188,7 @@ namespace Linkdev.IKEA.PL.Controllers.Employees
 
 			try
 			{
-				var IsDeleted = _employeeService.DeleteEmployee(id);
+				var IsDeleted = await _employeeService.DeleteEmployeeAsync(id);
 
 				if (IsDeleted) return RedirectToAction(nameof(Index));
 			}
