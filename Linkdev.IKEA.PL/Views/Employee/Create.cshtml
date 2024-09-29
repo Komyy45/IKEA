@@ -1,12 +1,11 @@
-﻿@model EmployeeViewModel
+﻿@model EmployeeViewModel 
 @{
     ViewData["Title"] = "Create Employee";
     ViewData["Action"] = "Create";
 }
 
-<div class="col-6 m-auto">
+<div class="col-7 m-auto">
     <h1 class="my-5">Create Employee</h1>
-
 
     <div class="alert alert-danger" asp-validation-summary="ModelOnly">
     </div>
@@ -17,4 +16,5 @@
 @section Scripts
 {
     <partial name="_ValidationScriptsPartial"></partial>
+    <script src="~/js/imagePreview.js"></script>
 }

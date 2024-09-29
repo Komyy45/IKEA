@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Linkdev.IKEA.DAL.Entities.Common.Enums;
+using Microsoft.AspNetCore.Http;
 
 namespace Linkdev.IKEA.BLL.Models.Employees
 {
@@ -31,5 +32,7 @@ namespace Linkdev.IKEA.BLL.Models.Employees
 		public string EmployeeType { get; set; } = null!;
 
         public int? DepartmentId { get; set; }
+
+        public IFormFile? Image { get; set; }
     }
 }

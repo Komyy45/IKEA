@@ -1,8 +1,11 @@
+using Linkdev.IKEA.BLL.Common.Services.AttachmentService;
 using Linkdev.IKEA.BLL.Services.Departments;
 using Linkdev.IKEA.BLL.Services.Employees;
 using Linkdev.IKEA.DAL.Presistance.Data;
 using Linkdev.IKEA.DAL.Presistance.Repositories.Departments;
 using Linkdev.IKEA.DAL.Presistance.Repositories.Employees;
+using Linkdev.IKEA.DAL.Presistance.UnitOfWork;
+using Linkdev.IKEA.PL.Mapping;
 using Microsoft.EntityFrameworkCore;
 
 namespace Linkdev.IKEA.PL
@@ -24,12 +27,18 @@ namespace Linkdev.IKEA.PL
                                                   .UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"), 
                 (migrationOptions) => migrationOptions.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
 
-            builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
-            builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            //builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+            //builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             
 
             builder.Services.AddScoped<IDepartmentService, DepartmentService>();
             builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+
+            builder.Services.AddTransient<IAttachmentService, AttachmentService>();
+
+            builder.Services.AddAutoMapper(config => config.AddProfile<MappingProfile>());
             
 
             #endregion
