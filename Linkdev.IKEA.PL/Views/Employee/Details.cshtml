@@ -7,6 +7,9 @@
 
 <div class="d-flex align-items-start border rounded w-75 m-auto p-5">
     <div class="nav flex-column nav-pills me-5" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+        <div class="col-6 bg-light rounded-circle mb-4" style="width:250px; height:250px;">
+            <img src="~/files/Images/@(Model.ImageUrl is not null ? Model.ImageUrl : "NotFound.jpeg")" alt="Profile Image" class="image rounded-circle w-100 h-100" id="imagePreview" />
+        </div>
         <button class="nav-link active" id="v-pills-General-tab" data-bs-toggle="pill" data-bs-target="#v-pills-General" type="button" role="tab" aria-controls="v-pills-General" aria-selected="true">General</button>
         <button class="nav-link" id="v-pills-Adminstration-tab" data-bs-toggle="pill" data-bs-target="#v-pills-Adminstration" type="button" role="tab" aria-controls="v-pills-Adminstration" aria-selected="false">Adminstration</button>
     </div>

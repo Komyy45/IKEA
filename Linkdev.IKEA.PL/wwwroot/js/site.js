@@ -7,6 +7,10 @@ imageInput.addEventListener("change", (e) => {
     imagePreview.setAttribute("src", url);
 })
 
+const uploadBtn = document.getElementById("uploadButton");
+
+uploadBtn.addEventListener("click", () => imageInput.click())
+
 const searchInput = document.getElementById("SearchInp");
 
 searchInput.addEventListener("keyup", () => { 

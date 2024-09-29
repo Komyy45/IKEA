@@ -1,19 +1,19 @@
 ﻿@model EmployeeViewModel
+@inject IDepartmentService _departmentService
 @{
     ViewData["Title"] = "CreateEditEmployeePartial";
     var departments = new SelectList(_departmentService.GetAllDepartments(), nameof(DepartmentDto.Id), nameof(DepartmentDto.Name));
 }
 
-@inject IDepartmentService _departmentService
-
 <form asp-action="@(ViewData["Action"] as string)" class="d-flex m-auto flex-wrap gap-3" enctype="multipart/form-data">
 
 
-    <div class="col-6 bg-black rounded-circle d-flex justify-content-center align-items-center" style="width:250px; height:250px;">
-        <img src="~/files/Images/@Model.ImageName" alt="Profile Image" class="image rounded-circle w-100 h-100" id="imagePreview" />
+    <div class="col-6 bg-black rounded-circle" style="width:250px; height:250px;">
+        <img src="~/files/Images/@(Model is not null && Model.Image is not null? Model.Image : "NotFound.jpeg")" alt="Profile Image" class="image rounded-circle w-100 h-100" id="imagePreview" />
     </div>
 	<div class="form-group mb-4 col-5">
-        <input class="form-control" asp-for="Image" id="imageInput" />
+        <span class="button-29" id="uploadButton" role="button">Upload Image</span>
+        <input class="form-control d-none" asp-for="Image" id="imageInput" />
     </div>
 
 
@@ -22,6 +22,7 @@
         <input class="form-control" asp-for="Name" />
         <span class="text-danger" asp-validation-for="Name"></span>
     </div>
+    <div class="col-1"></div>
     <div class="form-group mb-4 col-5">
         <label class="form-label" asp-for="Age"></label>
         <input class="form-control" asp-for="Age" />
@@ -32,6 +33,7 @@
         <input class="form-control" asp-for="Address" />
         <span class="text-danger" asp-validation-for="Address"></span>
     </div>
+    <div class="col-1"></div>
     <div class="form-group mb-4 col-5">
         <label class="form-label" asp-for="Salary"></label>
         <input class="form-control" asp-for="Salary" />
@@ -41,6 +43,7 @@
         <input class="form-control" asp-for="Email" />
         <span asp-validation-for="Email"></span>
     </div>
+    <div class="col-1"></div>
     <div class="form-group mb-4 col-5">
         <label class="form-label" asp-for="PhoneNumber"></label>
         <input class="form-control" asp-for="PhoneNumber" />
@@ -51,19 +54,10 @@
         <input type="date" class="form-control" asp-for="HiringDate" />
         <span asp-validation-for="HiringDate"></span>
     </div>
-    <div class="form-group col-5">
-        <select class="form-select" asp-for="DepartmentId" asp-items="departments">
-            <option value="@null">Choose Employee's Department</option>
-        </select>
-    </div>
-    <div class="form-group col-5">
-        <select class="form-select" asp-for="EmployeeType" asp-items="Html.GetEnumSelectList(typeof(EmployeeType))">
-            <option selected>Choose Employee's Type</option>
-        </select>
-    </div>
+    <div class="col-1"></div>
     <div class="form-group mb-4 col-5">
         <label class="d-block mb-4" asp-for="Gender"></label>
-        @foreach (var value in Enum.GetValues<Gender>())
+        @foreach (var value in Enum.GetValues(typeof(Gender)))
         {
             <label class="radio-inline">
                 <input class="form-check-input" asp-for="Gender" type="radio" value="@value" />
@@ -71,10 +65,22 @@
             </label>
         }
     </div>
+    <div class="form-group col-5">
+        <select class="form-select" asp-for="DepartmentId" asp-items="departments">
+            <option value="@null">Choose Employee's Department</option>
+        </select>
+    </div>
+    <div class="col-1"></div>
+    <div class="form-group col-5">
+        <select class="form-select" asp-for="EmployeeType" asp-items="Html.GetEnumSelectList(typeof(EmployeeType))">
+            <option selected>Choose Employee's Type</option>
+        </select>
+    </div>
     <div class="form-group mb-4 col-5">
         <label class="form-label d-inline" asp-for="IsActive"></label>
         <input class="form-check d-inline" asp-for="IsActive" />
     </div>
+
     <div class="btns d-flex justify-content-end gap-4 mt-5 col-12">
 
         <input class="btn btn-outline-success" type="submit" value="@(ViewData["Action"] as string)" />
