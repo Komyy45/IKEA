@@ -1,11 +1,13 @@
 using Linkdev.IKEA.BLL.Common.Services.AttachmentService;
 using Linkdev.IKEA.BLL.Services.Departments;
 using Linkdev.IKEA.BLL.Services.Employees;
+using Linkdev.IKEA.DAL.Entities.Identity;
 using Linkdev.IKEA.DAL.Presistance.Data;
 using Linkdev.IKEA.DAL.Presistance.Repositories.Departments;
 using Linkdev.IKEA.DAL.Presistance.Repositories.Employees;
 using Linkdev.IKEA.DAL.Presistance.UnitOfWork;
 using Linkdev.IKEA.PL.Mapping;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Linkdev.IKEA.PL
@@ -39,6 +41,35 @@ namespace Linkdev.IKEA.PL
             builder.Services.AddTransient<IAttachmentService, AttachmentService>();
 
             builder.Services.AddAutoMapper(config => config.AddProfile<MappingProfile>());
+
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>(config =>
+                {
+                    #region Password
+                    
+                    config.Password.RequireNonAlphanumeric = true;
+                    config.Password.RequiredLength = 6;
+                    config.Password.RequireUppercase = true;
+                    config.Password.RequireLowercase = true;
+                    config.Password.RequiredUniqueChars = 1; 
+
+                    #endregion
+
+                    #region User
+
+                    config.User.RequireUniqueEmail = true;
+                    //config.User.AllowedUserNameCharacters = ""; 
+
+                    #endregion
+
+                    #region Lockout
+                    
+                    config.Lockout.AllowedForNewUsers = true;
+                    config.Lockout.MaxFailedAccessAttempts = 5;
+                    config.Lockout.DefaultLockoutTimeSpan = new TimeSpan(5, 0, 0, 0); 
+
+                    #endregion
+
+                }).AddEntityFrameworkStores<ApplicationDbContext>();
             
 
             #endregion
