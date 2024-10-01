@@ -110,5 +110,15 @@ namespace Linkdev.IKEA.PL.Controllers.Identity
         }
 
         #endregion
+
+        #region SignOut
+
+        [HttpGet]
+        public new async Task SignOut()
+        {
+            await _signInManager.SignOutAsync();
+        }
+
+        #endregion
     }
 }

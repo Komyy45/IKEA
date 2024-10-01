@@ -76,6 +76,7 @@ namespace Linkdev.IKEA.PL
                 options.LogoutPath = "/Account/SignIn";
                 options.LoginPath = "/Account/SignIn";
                 options.AccessDeniedPath = "/Home/Error";
+                options.Events.OnSigningOut = (context) => { context.Response.Redirect("/Account/SignIn"); return Task.CompletedTask; };
             });
 
             //builder.Services.AddAuthentication(options =>
