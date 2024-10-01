@@ -72,6 +72,43 @@ namespace Linkdev.IKEA.PL.Controllers.Identity
             return View();
         } 
 
+        public async Task<IActionResult> SignInAsync(SignInViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var user = await _userManager.FindByEmailAsync(model.Email);
+
+            if (user is { })
+            {
+                var signInFlag = await _userManager.CheckPasswordAsync(user, model.Password);
+            
+                if(signInFlag)
+                {
+                    var signInResult = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, true);
+
+                    if (signInResult.IsNotAllowed)
+                        ModelState.AddModelError(string.Empty, "Your Account has not been confirmed!");
+
+                    if (signInResult.IsLockedOut)
+                        ModelState.AddModelError(string.Empty, $"Your Account has been locked!, Please try again later");
+
+                    //if(signInResult.RequiresTwoFactor)
+                    //{
+
+                    //}
+
+                    if(signInResult.Succeeded)
+                        return RedirectToAction(nameof(HomeController.Index), "Home");
+
+                    return View(model);
+                }
+            }
+
+            ModelState.AddModelError(string.Empty, "Invalid Credentials!");
+            return View(model);
+        }
+
         #endregion
     }
 }
