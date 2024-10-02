@@ -1,0 +1,78 @@
+﻿@model SignUpViewModel
+@{
+    ViewData["Title"] = "SignUp";
+    Layout = "~/Views/Shared/_AuthLayout.cshtml";
+}
+
+<form asp-action="SignUp" class="signin">
+
+    <div class="content">
+
+        <h2>Sign Up</h2>
+
+        <div class="form">
+            <div style="color: red; width: 100%;" asp-validation-summary="All"></div>
+
+            <div class="inputBox">
+                <input asp-for="FirstName"> <i>First Name</i>
+                <span class="validation" asp-validation-for="FirstName"></span>
+            </div>
+            <div class="inputBox">
+
+                <input asp-for="LastName"> <i>Last Name</i>
+                <span class="validation" asp-validation-for="LastName"></span>
+            </div>
+
+            <div class="inputBox">
+
+                <input asp-for="UserName"> <i>Username</i>
+                <span class="validation" asp-validation-for="UserName"></span>
+            </div>
+
+            <div class="inputBox">
+
+                <input asp-for="Email"> <i>Email Address</i>
+                <span class="validation" asp-validation-for="Email"></span>
+            </div>
+
+            <div class="inputBox">
+
+                <input asp-for="Password"> <i>Password</i>
+                <span class="validation" asp-validation-for="Password"></span>
+            </div>
+            
+            <div class="inputBox">
+
+                <input asp-for="ConfirmPassword"> <i>Confirm Password</i>
+                <span class="validation" asp-validation-for="ConfirmPassword"></span>
+            </div>
+
+            <div class="checkbox-wrapper-39"> 
+                <label> 
+                    <input asp-for="IsAgreed" /> <span style="background: transparent;" class="checkbox"></span>
+                </label>
+                <label style="width: auto; color: #0f0">I Agree to the Terms & Conditions</label>
+                <span class="validation" asp-validation-for="IsAgreed"></span>
+            </div>
+
+            <div class="links">
+                <a href="#">I Already Had an Account</a> <a asp-action="SignIn">Sign in</a>
+
+            </div>
+
+            <div class="inputBox" style="width: 100%">
+
+                <input type="submit" value="Sign up">
+
+            </div>
+
+        </div>
+
+    </div>
+
+</form>
+
+@section Scripts{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

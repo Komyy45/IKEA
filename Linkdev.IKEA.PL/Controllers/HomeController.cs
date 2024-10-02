@@ -1,9 +1,11 @@
 using System.Diagnostics;
 using Linkdev.IKEA.PL.ViewModels.Common;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Linkdev.IKEA.PL.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
